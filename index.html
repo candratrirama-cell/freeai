@@ -27,7 +27,7 @@
     height:100vh;height:100dvh;display:flex;overflow:hidden;
   }
 
-  /* ===== SIDEBAR ===== */
+  /* SIDEBAR */
   .sidebar{width:280px;flex-shrink:0;background:var(--bg-1);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;height:100dvh;transition:margin-left .25s ease;overflow:hidden}
   .sidebar.collapsed{margin-left:-280px}
   .sidebar-head{padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -56,10 +56,10 @@
   .dot-live{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px rgba(16,185,129,.15);animation:pulse 2.2s infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.15)}50%{box-shadow:0 0 0 6px rgba(16,185,129,.05)}}
 
-  /* ===== MAIN GRID (minmax(0,1fr) supaya scroll-able) ===== */
+  /* MAIN */
   .main{flex:1;min-width:0;height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden}
 
-  /* ===== TOPBAR ===== */
+  /* TOPBAR */
   .topbar{min-height:56px;border-bottom:1px solid var(--border);background:rgba(7,8,13,.7);backdrop-filter:blur(12px);display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap}
   .menu-btn{width:34px;height:34px;border-radius:9px;background:transparent;border:1px solid var(--border);color:var(--text-1);cursor:pointer;display:grid;place-items:center;transition:.15s;flex-shrink:0}
   .menu-btn:hover{background:var(--surface-2);color:var(--text-0)}
@@ -99,8 +99,8 @@
   .install-btn svg{width:14px;height:14px}
   .install-btn.hidden{display:none}
 
-  /* ===== CHAT (scroll-able) ===== */
-  .chat-scroll{overflow-y:auto;overflow-x:hidden;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-behavior:smooth}
+  /* CHAT */
+  .chat-scroll{overflow-y:auto;overflow-x:hidden;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   .chat-inner{max-width:820px;margin:0 auto;padding:26px 22px 30px}
 
   .welcome{text-align:center;padding:44px 20px 24px;animation:fadeUp .5s ease}
@@ -173,13 +173,13 @@
   .typing span:nth-child(3){animation-delay:.4s}
   @keyframes blink{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
 
-  /* ===== INPUT ===== */
+  /* INPUT */
   .input-zone{padding:0 22px 12px;background:var(--bg-0)}
   .attach-preview{max-width:800px;margin:0 auto 8px;display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;align-items:center;gap:12px}
   .attach-preview.show{display:flex}
   .attach-preview img{width:52px;height:52px;border-radius:9px;object-fit:cover;border:1px solid var(--border-light);background:var(--bg-2)}
   .attach-preview .ap-info{flex:1;min-width:0}
-  .attach-preview .ap-name{font-size:.8rem;font-weight:600;color:var(--text-0);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attach-preview .ap-name{font-size:.8rem;font-weight:600;color:var(--text-0)}
   .attach-preview .ap-hint{font-size:.68rem;color:var(--text-2);margin-top:2px}
   .attach-preview .ap-remove{width:28px;height:28px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text-2);cursor:pointer;display:grid;place-items:center;flex-shrink:0}
   .attach-preview .ap-remove:hover{color:var(--danger);border-color:var(--danger);background:rgba(239,68,68,.08)}
@@ -203,13 +203,13 @@
   .input-hint{max-width:800px;margin:7px auto 0;font-size:.68rem;color:var(--text-2);text-align:center}
   .input-hint kbd{font-family:'JetBrains Mono',monospace;font-size:.62rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text-1)}
 
-  /* ===== FOOTER ===== */
+  /* FOOTER */
   .thanks-footer{padding:10px 22px 12px;text-align:center;font-size:.72rem;color:var(--text-2);letter-spacing:.02em;border-top:1px solid var(--border);background:var(--bg-0)}
   .thanks-footer strong{background:linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;letter-spacing:.03em}
   .thanks-footer .heart{display:inline-block;animation:heartBeat 1.6s ease-in-out infinite;margin:0 3px}
   @keyframes heartBeat{0%,100%{transform:scale(1)}25%{transform:scale(1.22)}50%{transform:scale(1)}}
 
-  /* ===== TOAST ===== */
+  /* TOAST */
   .toast-wrap{position:fixed;bottom:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:9px;pointer-events:none}
   .toast{background:var(--surface-2);border:1px solid var(--border-light);border-left:3px solid var(--accent);padding:11px 15px;border-radius:10px;font-size:.8rem;color:var(--text-0);box-shadow:0 12px 30px rgba(0,0,0,.5);min-width:220px;max-width:320px;animation:toastIn .3s ease;pointer-events:auto;display:flex;align-items:center;gap:10px}
   .toast.success{border-left-color:var(--success)}
@@ -225,7 +225,6 @@
   ::-webkit-scrollbar-thumb:hover{background:#3f4560}
   .hidden{display:none!important}
 
-  /* ===== FIX SCROLL DI MOBILE ===== */
   @supports (height: 100dvh) {
     body { height: 100dvh; }
     .sidebar { height: 100dvh; }
@@ -249,7 +248,7 @@
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-head">
     <div class="brand-logo">
@@ -272,11 +271,11 @@
 
   <div class="sidebar-foot">
     <span class="dot-live"></span>
-    <span id="modelCount">11 Model Tersedia</span>
+    <span id="modelCount">12 Model Tersedia</span>
   </div>
 </aside>
 
-<!-- ===== MAIN ===== -->
+<!-- MAIN -->
 <main class="main">
   <header class="topbar">
     <button class="menu-btn" id="menuBtn" title="Menu" type="button">
@@ -323,7 +322,7 @@
           </svg>
         </div>
         <h1>Halo, saya Shiera AI 👋</h1>
-        <p>Asisten multi-model dengan <strong>11 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
+        <p>Asisten multi-model dengan <strong>12 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
 
         <div class="suggestions" id="suggestions">
           <div class="suggestion" data-q="Jelaskan apa itu kecerdasan buatan dengan bahasa sederhana">
@@ -412,7 +411,6 @@
 <script>
 /* ============================================================
    SHIERA AI · MULTI-MODEL ASSISTANT
-   - 10 Chatbot + 1 Image Analyzer (Noma's) + 1 Image Generator (Ideogram)
    ============================================================ */
 
 const MODELS = {
@@ -432,25 +430,30 @@ const MODELS = {
   xena:     { type:"chat", name:"Shiera XENA",         ver:"gpt-5.5",     endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-5.5", param:"pesan", desc:"GPT-5.5 · canggih generasi baru", color:"#0ea5e9", colorB:"#0284c7",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>` },
 
-  orcha:    { type:"chat", name:"Shira Orcha",         ver:"qwen3-max",   endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-max", param:"pesan", desc:"Qwen3 Max · multibahasa & analitis", color:"#f59e0b", colorB:"#d97706",
-    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>` },
-
-  mangkuwana:{type:"chat", name:"Shiera Mangkuwana",   ver:"grok-4.1",    endpoint:"https://api.synoxcloud.xyz/ai-chat/x.ai-grok-4.1", param:"pesan", desc:"Grok 4.1 · realtime & berani", color:"#111827", colorB:"#374151",
-    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"/><circle cx="12" cy="12" r="3"/></svg>` },
-
   ornama:   { type:"chat", name:"Shiera Ornama",       ver:"qwen3-next",  endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-next-80b-a3b-instruct", param:"prompt", desc:"Qwen3-Next 80B · cepat & efisien", color:"#8b5cf6", colorB:"#7c3aed",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>` },
 
-  fixenpro: { type:"chat", name:"Shiera Fixen PRO",    ver:"gemini-3.1",  endpoint:"https://api.synoxcloud.xyz/ai-chat/gemini-3.1-pro", param:"pesan", desc:"Gemini 3.1 Pro · multimodal canggih", color:"#4285f4", colorB:"#1a73e8",
-    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>` },
+  /* ===== CLAUDE NEW MODELS ===== */
+  hubi:     { type:"chat", name:"Shiera Hubi",         ver:"opus-4.5",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.5", param:"pesan", desc:"Claude Opus 4.5 · powerful & presisi", color:"#d97757", colorB:"#c15f3c",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
-  fixenflash:{type:"chat", name:"Shiera Fixen Flash",  ver:"gemini-3",    endpoint:"https://api.synoxcloud.xyz/ai-chat/gemini-3-pro", param:"pesan", desc:"Gemini 3 Pro · super cepat", color:"#34a853", colorB:"#188038",
-    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
+  hubi5:    { type:"chat", name:"Shiera Hubi 5",       ver:"opus-4.6",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.6", param:"pesan", desc:"Claude Opus 4.6 · cepat & cerdas", color:"#e07b5c", colorB:"#c15f3c",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
+  hubi6s:   { type:"chat", name:"Shiera Hubi 6.S",     ver:"opus-4.7",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.7", param:"pesan", desc:"Claude Opus 4.7 · sangat pintar", color:"#f59e0b", colorB:"#d97706",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
+
+  hubi58:   { type:"chat", name:"Shiera Hubi 5.8",     ver:"opus-4.8",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.8", param:"pesan", desc:"Claude Opus 4.8 · kelas teratas", color:"#ec4899", colorB:"#be185d",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
+
+  dwon:     { type:"chat", name:"Shiera Dwon",         ver:"sonnet-4.6",  endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-sonnet-4.6", param:"pesan", desc:"Claude Sonnet 4.6 · cepat & efisien", color:"#8b5cf6", colorB:"#6d28d9",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
+
+  /* ===== IMAGE ANALYZER ===== */
   nomas:    { type:"chat-image", name:"Shiera Noma's", ver:"gpt-4o-mini", endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-4o-mini", param:"prompt", desc:"Analisis gambar (otomatis saat upload)", color:"#ec4899", colorB:"#be185d",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>` },
 
-  /* ===== IMAGE GENERATOR (hanya Ideogram) ===== */
+  /* ===== IMAGE GENERATOR ===== */
   ba1:      { type:"image", name:"Shiera B.A 1",       ver:"ideogram",    endpoint:"https://api.nexray.eu.cc/ai/ideogram", param:"prompt", desc:"Ideogram · grafis & tipografi", color:"#a855f7", colorB:"#7c3aed",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v10l8 5 8-5V7z"/><path d="M12 22V12"/><path d="M4 7l8 5 8-5"/></svg>` }
 };
@@ -481,7 +484,7 @@ let pendingPreviewUrl = null;
 let deferredPrompt = null;
 let pendingImageUrlCache = null;
 
-const STORAGE_KEY = "shiera_ai_chats_v9";
+const STORAGE_KEY = "shiera_ai_chats_v10";
 
 /* ===== STORAGE ===== */
 function loadFromStorage(){
@@ -996,7 +999,7 @@ async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
   }
 }
 
-/* ===== GENERATE IMAGE (hanya Shiera B.A 1 / Ideogram) ===== */
+/* ===== GENERATE IMAGE ===== */
 async function handleGenerateImage(){
   const prompt = chatInput.value.trim();
   if(!prompt || isSending) return;
