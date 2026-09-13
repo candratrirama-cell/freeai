@@ -132,8 +132,6 @@
   .msg-body p{margin-bottom:9px}
   .msg-body p:last-child{margin-bottom:0}
   .msg-body code{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--border);color:#a5b4fc}
-  .msg-body pre{background:var(--bg-1);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:10px 0;overflow-x:auto}
-  .msg-body pre code{background:none;border:none;padding:0;font-size:.78rem;color:#e2e8f0;line-height:1.6}
   .msg-body strong{font-weight:700;color:#fff}
   .msg-body em{font-style:italic;color:var(--text-1)}
   .msg-body ul,.msg-body ol{margin:8px 0 8px 22px}
@@ -145,6 +143,51 @@
   .msg-body h3{font-size:.92rem}
   .msg-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 13px;margin:9px 0;color:var(--text-1);font-style:italic}
   .msg-body hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+  /* CODE BLOCK DENGAN TOMBOL SALIN */
+  .code-block{
+    margin:10px 0;border-radius:10px;overflow:hidden;
+    border:1px solid var(--border);background:var(--bg-1);
+  }
+  .code-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:7px 12px;background:var(--bg-2);
+    border-bottom:1px solid var(--border);
+    font-size:.7rem;color:var(--text-2);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .code-header .lang{
+    display:flex;align-items:center;gap:6px;
+    font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+  }
+  .code-header .lang .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent-2);
+  }
+  .copy-code-btn{
+    display:flex;align-items:center;gap:6px;
+    background:transparent;border:1px solid var(--border-light);
+    color:var(--text-1);padding:4px 10px;
+    border-radius:7px;font-size:.68rem;font-weight:600;
+    font-family:inherit;cursor:pointer;transition:.18s;
+  }
+  .copy-code-btn:hover{
+    background:var(--surface-2);color:var(--text-0);
+    border-color:var(--accent);
+  }
+  .copy-code-btn.copied{
+    background:rgba(16,185,129,.15);
+    color:#34d399;border-color:var(--success);
+  }
+  .copy-code-btn svg{width:12px;height:12px}
+  .code-block pre{
+    margin:0;padding:12px 14px;background:transparent;
+    border:none;border-radius:0;overflow-x:auto;
+  }
+  .code-block pre code{
+    background:none;border:none;padding:0;
+    font-size:.78rem;color:#e2e8f0;line-height:1.6;
+  }
 
   .uploaded-img{margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid var(--border-light);max-width:280px;background:var(--bg-1)}
   .uploaded-img img{width:100%;display:block;max-height:280px;object-fit:cover;background:var(--bg-2)}
@@ -161,11 +204,13 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .img-loading p{font-size:.78rem;color:var(--text-2)}
 
-  .msg-actions{display:flex;gap:6px;margin-top:8px;opacity:0;transition:.2s}
+  .msg-actions{display:flex;gap:6px;margin-top:8px;opacity:0;transition:.2s;flex-wrap:wrap}
   .msg:hover .msg-actions{opacity:1}
   .msg-action{background:transparent;border:1px solid var(--border);color:var(--text-2);padding:4px 9px;border-radius:7px;font-size:.68rem;font-weight:500;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.15s}
   .msg-action:hover{color:var(--text-0);border-color:var(--border-light);background:var(--surface-2)}
   .msg-action svg{width:11px;height:11px}
+  .msg-action.speaking{color:var(--pink);border-color:var(--pink);background:rgba(236,72,153,.08);animation:speakingPulse 1.2s infinite}
+  @keyframes speakingPulse{0%,100%{opacity:1}50%{opacity:.6}}
 
   .typing{display:flex;gap:5px;padding:5px 0;align-items:center}
   .typing span{width:7px;height:7px;border-radius:50%;background:var(--text-2);animation:blink 1.4s infinite both}
@@ -194,6 +239,24 @@
   .tool-btn:hover:not(:disabled){color:#f9a8d4;border-color:var(--pink);background:rgba(236,72,153,.08)}
   .tool-btn:disabled{opacity:.4;cursor:not-allowed}
   .tool-btn svg{width:16px;height:16px}
+
+  /* MIC BUTTON */
+  .mic-btn{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:transparent;border:1px solid var(--border);color:var(--text-2);cursor:pointer;display:grid;place-items:center;transition:.18s;position:relative}
+  .mic-btn:hover:not(:disabled){color:#34d399;border-color:var(--success);background:rgba(16,185,129,.08)}
+  .mic-btn:disabled{opacity:.4;cursor:not-allowed}
+  .mic-btn.recording{
+    color:#fff;border-color:var(--danger);
+    background:rgba(239,68,68,.2);
+    animation:micPulse 1.4s infinite;
+  }
+  .mic-btn.recording::after{
+    content:'';position:absolute;inset:-4px;border-radius:14px;
+    border:2px solid var(--danger);opacity:.5;
+    animation:micRipple 1.4s infinite;
+  }
+  @keyframes micPulse{0%,100%{background:rgba(239,68,68,.2)}50%{background:rgba(239,68,68,.35)}}
+  @keyframes micRipple{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.3);opacity:0}}
+  .mic-btn svg{width:16px;height:16px}
 
   .send-btn{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:#fff;cursor:pointer;display:grid;place-items:center;transition:.18s;box-shadow:0 6px 16px -6px var(--accent-glow)}
   .send-btn:hover:not(:disabled){transform:scale(1.05)}
@@ -297,6 +360,12 @@
     </div>
 
     <div class="topbar-right">
+      <button class="icon-btn" id="stopVoiceBtn" title="Hentikan suara" type="button" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
       <button class="install-btn hidden" id="installBtn" title="Install Aplikasi" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -322,7 +391,7 @@
           </svg>
         </div>
         <h1>Halo, saya Shiera AI 👋</h1>
-        <p>Asisten multi-model dengan <strong>13 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
+        <p>Asisten multi-model dengan <strong>13 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar, atau klik 🎨 untuk membuat gambar. Setiap model punya <strong>suara berbeda</strong>!</p>
 
         <div class="suggestions" id="suggestions">
           <div class="suggestion" data-q="Jelaskan apa itu kecerdasan buatan dengan bahasa sederhana">
@@ -332,7 +401,7 @@
             </div>
             <div class="s-desc">Penjelasan sederhana tentang AI</div>
           </div>
-          <div class="suggestion" data-q="Buatkan contoh kode JavaScript untuk fetch API">
+          <div class="suggestion" data-q="Buatkan contoh kode HTML dengan tombol salin">
             <div class="s-title">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
               Contoh Coding
@@ -373,6 +442,13 @@
     </div>
     <div class="input-wrap">
       <textarea id="chatInput" rows="1" placeholder="Kirim pesan ke Shiera AI..."></textarea>
+      <button class="mic-btn" id="micBtn" title="Bicara (Voice Input)" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/>
+          <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+      </button>
       <button class="tool-btn" id="uploadBtn" title="Upload gambar (Shiera Noma's)" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -395,7 +471,7 @@
     </div>
     <input type="file" id="fileInput" accept="image/*" style="display:none">
     <div class="input-hint">
-      <kbd>Enter</kbd> kirim · <kbd>Shift</kbd>+<kbd>Enter</kbd> baris baru · 📎 upload gambar · 🎨 buat gambar
+      <kbd>Enter</kbd> kirim · <kbd>Shift</kbd>+<kbd>Enter</kbd> baris baru · 🎤 voice · 📎 gambar · 🎨 buat gambar
     </div>
   </div>
 
@@ -411,50 +487,63 @@
 <script>
 /* ============================================================
    SHIERA AI · MULTI-MODEL ASSISTANT
-   Chat konteks nyambung: setiap request dibungkus prompt konteks
+   Fitur: konteks chat nyambung, copy code, voice per model
    ============================================================ */
 
 const MODELS = {
   /* ===== CHATBOT ===== */
   geo:      { type:"chat", name:"Shiera 6 GEO",        ver:"gpt-3.5",     endpoint:"https://api.nexray.eu.cc/ai/gpt-3.5-turbo", param:"text",  desc:"GPT-3.5 Turbo · cepat & serbaguna", color:"#10a37f", colorB:"#0d8a6a",
+    voice:{ lang:"id-ID", rate:1.0, pitch:1.0, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
 
   abino:    { type:"chat", name:"Shiera 5 Abino",      ver:"claude",      endpoint:"https://api.nexray.eu.cc/ai/claude", param:"text",  desc:"Claude · analitis & kreatif", color:"#d97757", colorB:"#c15f3c",
+    voice:{ lang:"id-ID", rate:0.92, pitch:1.1, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   akhion:   { type:"chat", name:"Shiera 1 Akhion",     ver:"copilot",     endpoint:"https://api.nexray.eu.cc/ai/copilot", param:"text",  desc:"Copilot · bantuan teknis & coding", color:"#2563eb", colorB:"#1d4ed8",
+    voice:{ lang:"en-US", rate:1.05, pitch:0.9, prefer:"en" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>` },
 
   thinking: { type:"chat", name:"Shiera Thingking",    ver:"deepseek-r1", endpoint:"https://api.synoxcloud.xyz/ai-chat/deepseek-r1", param:"q", desc:"DeepSeek R1 · reasoning mendalam", color:"#7c3aed", colorB:"#6d28d9",
+    voice:{ lang:"id-ID", rate:0.85, pitch:0.95, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>` },
 
   xena:     { type:"chat", name:"Shiera XENA",         ver:"gpt-5.5",     endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-5.5", param:"pesan", desc:"GPT-5.5 · canggih generasi baru", color:"#0ea5e9", colorB:"#0284c7",
+    voice:{ lang:"id-ID", rate:1.08, pitch:1.15, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>` },
 
   ornama:   { type:"chat", name:"Shiera Ornama",       ver:"qwen3-next",  endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-next-80b-a3b-instruct", param:"prompt", desc:"Qwen3-Next 80B · cepat & efisien", color:"#8b5cf6", colorB:"#7c3aed",
+    voice:{ lang:"id-ID", rate:1.02, pitch:1.05, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>` },
 
   hubi:     { type:"chat", name:"Shiera Hubi",         ver:"opus-4.5",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.5", param:"pesan", desc:"Claude Opus 4.5 · powerful & presisi", color:"#d97757", colorB:"#c15f3c",
+    voice:{ lang:"id-ID", rate:0.95, pitch:1.0, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   hubi5:    { type:"chat", name:"Shiera Hubi 5",       ver:"opus-4.6",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.6", param:"pesan", desc:"Claude Opus 4.6 · cepat & cerdas", color:"#e07b5c", colorB:"#c15f3c",
+    voice:{ lang:"id-ID", rate:0.98, pitch:1.08, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   hubi6s:   { type:"chat", name:"Shiera Hubi 6.S",     ver:"opus-4.7",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.7", param:"pesan", desc:"Claude Opus 4.7 · sangat pintar", color:"#f59e0b", colorB:"#d97706",
+    voice:{ lang:"id-ID", rate:1.0, pitch:1.2, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   hubi58:   { type:"chat", name:"Shiera Hubi 5.8",     ver:"opus-4.8",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.8", param:"pesan", desc:"Claude Opus 4.8 · kelas teratas", color:"#ec4899", colorB:"#be185d",
+    voice:{ lang:"id-ID", rate:0.9, pitch:1.15, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   dwon:     { type:"chat", name:"Shiera Dwon",         ver:"sonnet-4.6",  endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-sonnet-4.6", param:"pesan", desc:"Claude Sonnet 4.6 · cepat & efisien", color:"#8b5cf6", colorB:"#6d28d9",
+    voice:{ lang:"id-ID", rate:1.05, pitch:1.1, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
   /* ===== IMAGE ANALYZER ===== */
   nomas:    { type:"chat-image", name:"Shiera Noma's", ver:"gpt-4o-mini", endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-4o-mini", param:"prompt", desc:"Analisis gambar (otomatis saat upload)", color:"#ec4899", colorB:"#be185d",
+    voice:{ lang:"id-ID", rate:1.0, pitch:1.05, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>` },
 
   /* ===== IMAGE GENERATOR ===== */
   ba1:      { type:"image", name:"Shiera B.A 1",       ver:"ideogram",    endpoint:"https://api.nexray.eu.cc/ai/ideogram", param:"prompt", desc:"Ideogram · grafis & tipografi", color:"#a855f7", colorB:"#7c3aed",
+    voice:{ lang:"id-ID", rate:1.0, pitch:1.0, prefer:"id" },
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v10l8 5 8-5V7z"/><path d="M12 22V12"/><path d="M4 7l8 5 8-5"/></svg>` }
 };
 
@@ -467,6 +556,7 @@ const sidebar = $("sidebar"), menuBtn = $("menuBtn"), newChatBtn = $("newChatBtn
 const chatList = $("chatList"), chatScroll = $("chatScroll"), chatInner = $("chatInner");
 const welcomeView = $("welcomeView"), suggestions = $("suggestions");
 const chatInput = $("chatInput"), sendBtn = $("sendBtn"), imageBtn = $("imageBtn"), uploadBtn = $("uploadBtn");
+const micBtn = $("micBtn"), stopVoiceBtn = $("stopVoiceBtn");
 const clearChatBtn = $("clearChatBtn"), toastWrap = $("toastWrap");
 const modelSelect = $("modelSelect"), modelBtn = $("modelBtn"), modelMenu = $("modelMenu");
 const modelIcon = $("modelIcon"), modelLabel = $("modelLabel"), modelVer = $("modelVer");
@@ -483,8 +573,11 @@ let pendingFile = null;
 let pendingPreviewUrl = null;
 let deferredPrompt = null;
 let pendingImageUrlCache = null;
+let currentUtterance = null;      // untuk stop voice
+let isRecording = false;
+let recognition = null;
 
-const STORAGE_KEY = "shiera_ai_chats_v11";
+const STORAGE_KEY = "shiera_ai_chats_v12";
 
 /* ===== STORAGE ===== */
 function loadFromStorage(){
@@ -520,6 +613,202 @@ function updateButtons(){
   sendBtn.disabled = (!hasText && !hasFile) || busy;
   imageBtn.disabled = !hasText || busy;
   uploadBtn.disabled = busy;
+}
+
+/* ============================================================
+   VOICE ENGINE — Text-to-Speech dengan suara berbeda tiap model
+   ============================================================ */
+let availableVoices = [];
+
+function loadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  availableVoices = window.speechSynthesis.getVoices();
+}
+
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+/* Pilih suara terbaik sesuai preferensi model */
+function pickVoice(model){
+  if(!availableVoices.length) loadVoices();
+  if(!availableVoices.length) return null;
+
+  const pref = model.voice || { lang:"id-ID", prefer:"id" };
+  const wantLang = pref.lang.toLowerCase();
+  const wantPrefix = wantLang.split("-")[0];
+
+  /* Prioritas 1: exact lang match */
+  let v = availableVoices.find(x => x.lang.toLowerCase() === wantLang);
+  if(v) return v;
+
+  /* Prioritas 2: lang prefix match (id, en, dst) + suara female/pria */
+  const sameLang = availableVoices.filter(x => x.lang.toLowerCase().startsWith(wantPrefix));
+  if(sameLang.length){
+    /* Coba cari berdasarkan nama yang umum (Google, Microsoft, dll) */
+    const priorities = ["google","microsoft","natural","female","wanita"];
+    for(const p of priorities){
+      const found = sameLang.find(x => x.name.toLowerCase().includes(p));
+      if(found) return found;
+    }
+    return sameLang[0];
+  }
+
+  /* Fallback: pakai suara default */
+  return availableVoices.find(x => x.default) || availableVoices[0];
+}
+
+/* Ucapkan teks dengan suara model */
+function speakText(text, model, btnEl){
+  if(!('speechSynthesis' in window)){
+    toast("Browser tidak mendukung suara.","warning");
+    return;
+  }
+
+  /* Hentikan dulu yang sedang berjalan */
+  window.speechSynthesis.cancel();
+
+  /* Bersihkan teks dari markdown & tag */
+  const clean = String(text)
+    .replace(/```[\s\S]*?```/g, " (ada kode di dalam balasan) ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 1000); // batas 1000 karakter biar tidak terlalu lama
+
+  if(!clean) return;
+
+  const utt = new SpeechSynthesisUtterance(clean);
+  const voice = pickVoice(model);
+  if(voice) utt.voice = voice;
+  utt.lang = model.voice?.lang || "id-ID";
+  utt.rate = model.voice?.rate || 1.0;
+  utt.pitch = model.voice?.pitch || 1.0;
+  utt.volume = 1.0;
+
+  /* Tandai tombol sedang speaking */
+  if(btnEl) btnEl.classList.add("speaking");
+  stopVoiceBtn.style.display = "grid";
+
+  utt.onend = () => {
+    if(btnEl) btnEl.classList.remove("speaking");
+    stopVoiceBtn.style.display = "none";
+    currentUtterance = null;
+  };
+  utt.onerror = () => {
+    if(btnEl) btnEl.classList.remove("speaking");
+    stopVoiceBtn.style.display = "none";
+    currentUtterance = null;
+  };
+
+  currentUtterance = utt;
+  window.speechSynthesis.speak(utt);
+}
+
+/* Stop suara */
+stopVoiceBtn.addEventListener("click", ()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  stopVoiceBtn.style.display = "none";
+  document.querySelectorAll(".msg-action.speaking").forEach(b => b.classList.remove("speaking"));
+});
+
+/* ============================================================
+   VOICE INPUT — Speech-to-Text (mikrofon)
+   ============================================================ */
+function initRecognition(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    toast("Browser tidak mendukung input suara.","warning");
+    return null;
+  }
+  const rec = new SR();
+  rec.continuous = false;
+  rec.interimResults = true;
+  rec.lang = "id-ID";
+
+  rec.onstart = () => {
+    isRecording = true;
+    micBtn.classList.add("recording");
+    micBtn.title = "Merekam... klik untuk stop";
+  };
+  rec.onend = () => {
+    isRecording = false;
+    micBtn.classList.remove("recording");
+    micBtn.title = "Bicara (Voice Input)";
+  };
+  rec.onerror = (e) => {
+    console.warn("Speech recognition error:", e);
+    isRecording = false;
+    micBtn.classList.remove("recording");
+    if(e.error === "not-allowed") toast("Izin mikrofon ditolak.","warning");
+    else if(e.error === "no-speech") toast("Tidak ada suara terdeteksi.","warning");
+    else toast("Gagal mendengar suara.","warning");
+  };
+  rec.onresult = (e) => {
+    let finalText = "";
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const transcript = e.results[i][0].transcript;
+      if(e.results[i].isFinal) finalText += transcript;
+    }
+    if(finalText){
+      chatInput.value = (chatInput.value + " " + finalText).trim();
+      autoResize();
+      updateButtons();
+    }
+  };
+  return rec;
+}
+
+micBtn.addEventListener("click", ()=>{
+  if(!recognition) recognition = initRecognition();
+  if(!recognition) return;
+
+  if(isRecording){
+    recognition.stop();
+  } else {
+    try { recognition.start(); }
+    catch(e){ console.warn(e); }
+  }
+});
+
+/* ============================================================
+   COPY CODE BUTTON
+   ============================================================ */
+function attachCopyHandlers(container){
+  container.querySelectorAll(".copy-code-btn").forEach(btn=>{
+    if(btn.dataset.bound) return;
+    btn.dataset.bound = "1";
+    btn.addEventListener("click", async ()=>{
+      const codeEl = btn.closest(".code-block").querySelector("code");
+      if(!codeEl) return;
+      const text = codeEl.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.innerHTML;
+        btn.classList.add("copied");
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tersalin!`;
+        setTimeout(()=>{
+          btn.classList.remove("copied");
+          btn.innerHTML = original;
+        }, 1800);
+        toast("Kode disalin!","success");
+      } catch(err){
+        /* Fallback untuk browser lama */
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); toast("Kode disalin!","success"); }
+        catch(e2){ toast("Gagal menyalin.","error"); }
+        ta.remove();
+      }
+    });
+  });
 }
 
 /* ===== RENDER MODEL MENU ===== */
@@ -643,6 +932,7 @@ function renderActiveChat(){
   welcomeView.classList.add("hidden");
   conv.messages.forEach((m,i)=> chatInner.appendChild(buildMessageEl(m,i)));
   scrollToBottom(false);
+  attachCopyHandlers(chatInner);
 }
 
 function buildMessageEl(m,index){
@@ -730,6 +1020,8 @@ function buildMessageEl(m,index){
   if(type!=="gen"){
     const actions = document.createElement("div");
     actions.className = "msg-actions";
+
+    /* Tombol Salin Teks */
     const copyBtn = document.createElement("button");
     copyBtn.className = "msg-action";
     copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Salin`;
@@ -738,6 +1030,26 @@ function buildMessageEl(m,index){
       navigator.clipboard.writeText(m.content).then(()=> toast("Teks disalin.","success"));
     });
     actions.appendChild(copyBtn);
+
+    /* Tombol Suara (Voice) — hanya untuk balasan AI */
+    if(type==="ai" && m.content){
+      const speakBtn = document.createElement("button");
+      speakBtn.className = "msg-action";
+      speakBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg> Suara`;
+      speakBtn.addEventListener("click", ()=>{
+        const mm = MODELS[m.model] || MODELS.geo;
+        if(speakBtn.classList.contains("speaking")){
+          window.speechSynthesis.cancel();
+          speakBtn.classList.remove("speaking");
+          stopVoiceBtn.style.display = "none";
+        } else {
+          document.querySelectorAll(".msg-action.speaking").forEach(b => b.classList.remove("speaking"));
+          speakText(m.content, mm, speakBtn);
+        }
+      });
+      actions.appendChild(speakBtn);
+    }
+
     content.appendChild(actions);
   }
 
@@ -746,20 +1058,44 @@ function buildMessageEl(m,index){
   return wrap;
 }
 
-/* ===== MARKDOWN ===== */
+/* ===== MARKDOWN dengan CODE BLOCK + TOMBOL SALIN ===== */
 function renderMarkdown(text){
   if(!text) return "";
   let html = escapeHtml(text);
-  html = html.replace(/```([\w]*)\n?([\s\S]*?)```/g,(_,l,c)=>`<pre><code>${c.replace(/\n$/,"")}</code></pre>`);
+
+  /* Kode blok dengan tombol salin */
+  html = html.replace(/```([\w+#.-]*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    const cleanCode = code.replace(/\n$/, "");
+    const langLabel = lang ? lang.toUpperCase() : "CODE";
+    return `
+      <div class="code-block">
+        <div class="code-header">
+          <span class="lang"><span class="dot"></span>${langLabel}</span>
+          <button class="copy-code-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Salin
+          </button>
+        </div>
+        <pre><code>${cleanCode}</code></pre>
+      </div>`;
+  });
+
+  /* Inline code */
   html = html.replace(/`([^`\n]+)`/g,"<code>$1</code>");
+  /* Bold & italic */
   html = html.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
   html = html.replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<em>$2</em>");
+  /* Heading */
   html = html.replace(/^### (.*)$/gm,"<h3>$1</h3>");
   html = html.replace(/^## (.*)$/gm,"<h2>$1</h2>");
   html = html.replace(/^# (.*)$/gm,"<h1>$1</h1>");
+  /* Blockquote */
   html = html.replace(/^&gt; (.*)$/gm,"<blockquote>$1</blockquote>");
+  /* Horizontal rule */
   html = html.replace(/^---+$/gm,"<hr>");
+  /* Link */
   html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  /* List */
   html = html.replace(/(?:^|\n)((?:[-*] .*(?:\n|$))+)/g,(m)=>{
     const items = m.trim().split("\n").map(l=>l.replace(/^[-*]\s+/,"")).map(l=>`<li>${l}</li>`).join("");
     return `\n<ul>${items}</ul>`;
@@ -768,8 +1104,9 @@ function renderMarkdown(text){
     const items = m.trim().split("\n").map(l=>l.replace(/^\d+\.\s+/,"")).map(l=>`<li>${l}</li>`).join("");
     return `\n<ol>${items}</ol>`;
   });
+  /* Paragraph */
   html = html.split(/\n{2,}/).map(b=>{
-    if(/^\s*<(ul|ol|pre|h[1-3]|blockquote|hr|table)/.test(b.trim())) return b;
+    if(/^\s*<(ul|ol|pre|h[1-3]|blockquote|hr|table|div)/.test(b.trim())) return b;
     const lines = b.split("\n").filter(Boolean);
     if(!lines.length) return "";
     return `<p>${lines.join("<br>")}</p>`;
@@ -890,11 +1227,7 @@ async function handleSend(){
   sendToAI(text || "Tolong jelaskan gambar ini.", false, fileToUpload, modelAtSend);
 }
 
-/* ============================================================
-   KONTEKS PERCAKAPAN
-   Karena API tidak punya parameter "history", kita bungkus
-   seluruh riwayat + pesan baru jadi satu prompt kontekstual.
-   ============================================================ */
+/* ===== KONTEKS PERCAKAPAN ===== */
 function buildContextPrompt(conv, newUserText){
   const history = conv.messages
     .filter(m => (m.role === "user" || m.role === "ai") && m.content)
@@ -905,7 +1238,6 @@ function buildContextPrompt(conv, newUserText){
   const firstUser = conv.messages.find(m => m.role === "user" && m.content);
   const topikUtama = firstUser ? String(firstUser.content).slice(0, 150) : "";
 
-  /* Batas total karakter adaptif */
   const MAX_TOTAL = 6000;
   const HEADER = 500;
   const FOOTER = 400;
@@ -970,13 +1302,11 @@ async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
       saveToStorage();
     }
 
-    /* Bangun konteks percakapan */
     const ctxPrompt = buildContextPrompt(conv, userText);
 
     let url;
     const enc = encodeURIComponent;
     if(model.type === "chat-image" && imageUrl){
-      /* Noma's: pakai pesan mentah (single-turn), tidak ada konteks chat */
       const session = "uid-" + (localStorage.getItem("shiera_session") || (() => {
         const s = "s" + Math.random().toString(36).slice(2,10);
         localStorage.setItem("shiera_session", s);
@@ -1257,6 +1587,12 @@ updateModelBadge();
 autoResize();
 updateButtons();
 chatInput.focus();
+
+/* Muat daftar suara */
+if('speechSynthesis' in window){
+  setTimeout(loadVoices, 300);
+  setTimeout(loadVoices, 1000);
+}
 
 window.addEventListener("focus", updateButtons);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) updateButtons(); });
