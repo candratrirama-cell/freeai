@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shiera AI · Multi-Model Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f17">
+<title>Shiera AI · Multi-Model Assistant</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -20,20 +21,15 @@
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%;overflow:hidden}
   body{
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     background:var(--bg-0);color:var(--text-0);
     -webkit-font-smoothing:antialiased;line-height:1.5;
-    display:flex;height:100vh;
+    height:100vh;height:100dvh;display:flex;overflow:hidden;
   }
 
   /* ===== SIDEBAR ===== */
-  .sidebar{
-    width:270px;flex-shrink:0;background:var(--bg-1);
-    border-right:1px solid var(--border);
-    display:flex;flex-direction:column;height:100vh;
-    transition:margin-left .25s ease;
-  }
-  .sidebar.collapsed{margin-left:-270px}
+  .sidebar{width:280px;flex-shrink:0;background:var(--bg-1);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;height:100dvh;transition:margin-left .25s ease;overflow:hidden}
+  .sidebar.collapsed{margin-left:-280px}
   .sidebar-head{padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0}
   .brand-logo{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:grid;place-items:center;box-shadow:0 6px 18px var(--accent-glow)}
   .brand-logo svg{width:18px;height:18px}
@@ -60,23 +56,17 @@
   .dot-live{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px rgba(16,185,129,.15);animation:pulse 2.2s infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.15)}50%{box-shadow:0 0 0 6px rgba(16,185,129,.05)}}
 
-  /* ===== MAIN ===== */
-  .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh;overflow:hidden}
+  /* ===== MAIN GRID ===== */
+  .main{flex:1;min-width:0;height:100vh;height:100dvh;display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden}
 
-  .topbar{height:56px;flex-shrink:0;border-bottom:1px solid var(--border);background:rgba(7,8,13,.7);backdrop-filter:blur(12px);display:flex;align-items:center;gap:12px;padding:0 18px}
+  /* ===== TOPBAR ===== */
+  .topbar{min-height:56px;border-bottom:1px solid var(--border);background:rgba(7,8,13,.7);backdrop-filter:blur(12px);display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap}
   .menu-btn{width:34px;height:34px;border-radius:9px;background:transparent;border:1px solid var(--border);color:var(--text-1);cursor:pointer;display:grid;place-items:center;transition:.15s;flex-shrink:0}
   .menu-btn:hover{background:var(--surface-2);color:var(--text-0)}
   .menu-btn svg{width:16px;height:16px}
 
-  /* MODEL SELECTOR */
   .model-select{position:relative}
-  .model-btn{
-    display:flex;align-items:center;gap:9px;
-    padding:6px 12px;border-radius:99px;
-    background:var(--surface);border:1px solid var(--border);
-    font-size:.76rem;font-weight:600;color:var(--text-1);
-    cursor:pointer;transition:.15s;font-family:inherit;
-  }
+  .model-btn{display:flex;align-items:center;gap:9px;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--border);font-size:.76rem;font-weight:600;color:var(--text-1);cursor:pointer;transition:.15s;font-family:inherit}
   .model-btn:hover{border-color:var(--accent);color:var(--text-0)}
   .model-btn .mb-icon{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;flex-shrink:0}
   .model-btn .mb-icon svg{width:11px;height:11px;color:#fff}
@@ -84,31 +74,17 @@
   .model-select.open .model-btn .arrow{transform:rotate(180deg)}
   .model-btn .ver{color:var(--text-2);font-weight:500;font-family:'JetBrains Mono',monospace;font-size:.66rem}
 
-  .model-menu{
-    position:absolute;top:calc(100% + 8px);left:0;
-    min-width:280px;background:var(--surface-2);
-    border:1px solid var(--border-light);border-radius:12px;
-    padding:6px;box-shadow:0 20px 50px rgba(0,0,0,.6);
-    opacity:0;visibility:hidden;transform:translateY(-6px);
-    transition:.18s;z-index:80;
-  }
+  .model-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:320px;max-height:440px;overflow-y:auto;background:var(--surface-2);border:1px solid var(--border-light);border-radius:12px;padding:6px;box-shadow:0 20px 50px rgba(0,0,0,.6);opacity:0;visibility:hidden;transform:translateY(-6px);transition:.18s;z-index:90}
   .model-select.open .model-menu{opacity:1;visibility:visible;transform:translateY(0)}
-
-  .model-item{
-    display:flex;align-items:flex-start;gap:11px;
-    padding:10px 11px;border-radius:9px;
-    cursor:pointer;transition:.15s;
-  }
+  .model-menu-title{padding:8px 12px 4px;font-size:.62rem;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em}
+  .model-item{display:flex;align-items:flex-start;gap:11px;padding:10px 11px;border-radius:9px;cursor:pointer;transition:.15s}
   .model-item:hover{background:var(--surface-3)}
   .model-item.active{background:rgba(99,102,241,.12)}
   .model-item.active .mi-name{color:#c7d2fe}
-  .model-item .mi-icon{
-    width:32px;height:32px;border-radius:9px;flex-shrink:0;
-    display:grid;place-items:center;
-  }
+  .model-item .mi-icon{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:grid;place-items:center}
   .model-item .mi-icon svg{width:16px;height:16px;color:#fff}
   .model-item .mi-info{flex:1;min-width:0}
-  .model-item .mi-name{font-size:.82rem;font-weight:600;color:var(--text-0);margin-bottom:2px;display:flex;align-items:center;gap:7px}
+  .model-item .mi-name{font-size:.82rem;font-weight:600;color:var(--text-0);margin-bottom:2px}
   .model-item .mi-desc{font-size:.7rem;color:var(--text-2);line-height:1.4}
   .model-item .mi-check{width:14px;height:14px;color:var(--accent-2);opacity:0;flex-shrink:0;margin-top:8px}
   .model-item.active .mi-check{opacity:1}
@@ -118,16 +94,21 @@
   .icon-btn:hover{background:var(--surface-2);color:var(--text-0);border-color:var(--border-light)}
   .icon-btn svg{width:15px;height:15px}
 
+  .install-btn{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:99px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:#fff;cursor:pointer;font-family:inherit;font-size:.75rem;font-weight:600;box-shadow:0 6px 16px -6px var(--accent-glow);transition:.18s;white-space:nowrap}
+  .install-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px -6px rgba(99,102,241,.6)}
+  .install-btn svg{width:14px;height:14px}
+  .install-btn.hidden{display:none}
+
   /* ===== CHAT ===== */
-  .chat-scroll{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
-  .chat-inner{max-width:800px;margin:0 auto;padding:26px 22px 30px}
+  .chat-scroll{overflow-y:auto;overflow-x:hidden;min-height:0}
+  .chat-inner{max-width:820px;margin:0 auto;padding:26px 22px 30px}
 
   .welcome{text-align:center;padding:44px 20px 24px;animation:fadeUp .5s ease}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   .welcome-logo{width:64px;height:64px;border-radius:20px;margin:0 auto 18px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:grid;place-items:center;box-shadow:0 12px 34px -8px var(--accent-glow)}
   .welcome-logo svg{width:30px;height:30px;color:#fff}
   .welcome h1{font-size:1.4rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-  .welcome p{font-size:.88rem;color:var(--text-2);max-width:460px;margin:0 auto;line-height:1.6}
+  .welcome p{font-size:.88rem;color:var(--text-2);max-width:480px;margin:0 auto;line-height:1.6}
   .suggestions{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:26px;text-align:left}
   .suggestion{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;cursor:pointer;transition:.18s}
   .suggestion:hover{border-color:var(--accent);background:var(--surface-2);transform:translateY(-2px)}
@@ -158,7 +139,6 @@
   .msg-body ul,.msg-body ol{margin:8px 0 8px 22px}
   .msg-body li{margin-bottom:4px}
   .msg-body a{color:#a5b4fc;text-decoration:none;border-bottom:1px solid rgba(165,180,252,.3)}
-  .msg-body a:hover{border-bottom-color:#a5b4fc}
   .msg-body h1,.msg-body h2,.msg-body h3{margin:12px 0 6px;font-weight:700;line-height:1.3}
   .msg-body h1{font-size:1.1rem}
   .msg-body h2{font-size:1rem}
@@ -166,8 +146,11 @@
   .msg-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 13px;margin:9px 0;color:var(--text-1);font-style:italic}
   .msg-body hr{border:none;border-top:1px solid var(--border);margin:12px 0}
 
+  .uploaded-img{margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid var(--border-light);max-width:280px;background:var(--bg-1)}
+  .uploaded-img img{width:100%;display:block;max-height:280px;object-fit:cover;background:var(--bg-2)}
+
   .img-result{margin-top:8px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--bg-1);max-width:480px}
-  .img-result img{width:100%;display:block;border-radius:11px}
+  .img-result img{width:100%;display:block;border-radius:11px;background:var(--bg-2);min-height:80px}
   .img-result .img-meta{padding:9px 12px;font-size:.72rem;color:var(--text-2);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px}
   .img-result .img-meta button{background:transparent;border:1px solid var(--border);color:var(--text-1);padding:5px 10px;border-radius:7px;font-size:.7rem;font-family:inherit;font-weight:500;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:5px}
   .img-result .img-meta button:hover{color:var(--text-0);border-color:var(--border-light);background:var(--surface-2)}
@@ -191,7 +174,17 @@
   @keyframes blink{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
 
   /* ===== INPUT ===== */
-  .input-zone{flex-shrink:0;padding:0 22px 16px;background:var(--bg-0)}
+  .input-zone{padding:0 22px 12px;background:var(--bg-0)}
+  .attach-preview{max-width:800px;margin:0 auto 8px;display:none;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;align-items:center;gap:12px}
+  .attach-preview.show{display:flex}
+  .attach-preview img{width:52px;height:52px;border-radius:9px;object-fit:cover;border:1px solid var(--border-light);background:var(--bg-2)}
+  .attach-preview .ap-info{flex:1;min-width:0}
+  .attach-preview .ap-name{font-size:.78rem;font-weight:600;color:var(--text-0);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attach-preview .ap-hint{font-size:.68rem;color:var(--text-2);margin-top:2px}
+  .attach-preview .ap-remove{width:28px;height:28px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text-2);cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+  .attach-preview .ap-remove:hover{color:var(--danger);border-color:var(--danger);background:rgba(239,68,68,.08)}
+  .attach-preview .ap-remove svg{width:13px;height:13px}
+
   .input-wrap{max-width:800px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:8px 8px 8px 14px;display:flex;align-items:flex-end;gap:8px;transition:.2s;box-shadow:0 4px 24px -10px rgba(0,0,0,.5)}
   .input-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow),0 4px 24px -10px rgba(0,0,0,.5)}
   #chatInput{flex:1;background:transparent;border:none;outline:none;color:var(--text-0);font-family:inherit;font-size:.9rem;resize:none;max-height:140px;line-height:1.55;padding:7px 0}
@@ -210,36 +203,13 @@
   .input-hint{max-width:800px;margin:7px auto 0;font-size:.68rem;color:var(--text-2);text-align:center}
   .input-hint kbd{font-family:'JetBrains Mono',monospace;font-size:.62rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text-1)}
 
-  /* ===== FOOTER THANKS ===== */
-  .thanks-footer{
-    flex-shrink:0;
-    padding:12px 22px 14px;
-    text-align:center;
-    font-size:.74rem;
-    color:var(--text-2);
-    letter-spacing:.02em;
-    border-top:1px solid var(--border);
-    background:var(--bg-0);
-  }
-  .thanks-footer strong{
-    background:linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    font-weight:700;
-    letter-spacing:.03em;
-  }
-  .thanks-footer .heart{
-    display:inline-block;
-    animation:heartBeat 1.6s ease-in-out infinite;
-    margin:0 3px;
-  }
-  @keyframes heartBeat{
-    0%,100%{transform:scale(1)}
-    25%{transform:scale(1.22)}
-    50%{transform:scale(1)}
-  }
+  /* ===== FOOTER ===== */
+  .thanks-footer{padding:10px 22px 12px;text-align:center;font-size:.72rem;color:var(--text-2);letter-spacing:.02em;border-top:1px solid var(--border);background:var(--bg-0)}
+  .thanks-footer strong{background:linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;letter-spacing:.03em}
+  .thanks-footer .heart{display:inline-block;animation:heartBeat 1.6s ease-in-out infinite;margin:0 3px}
+  @keyframes heartBeat{0%,100%{transform:scale(1)}25%{transform:scale(1.22)}50%{transform:scale(1)}}
 
+  /* ===== TOAST ===== */
   .toast-wrap{position:fixed;bottom:20px;right:20px;z-index:100;display:flex;flex-direction:column;gap:9px;pointer-events:none}
   .toast{background:var(--surface-2);border:1px solid var(--border-light);border-left:3px solid var(--accent);padding:11px 15px;border-radius:10px;font-size:.8rem;color:var(--text-0);box-shadow:0 12px 30px rgba(0,0,0,.5);min-width:220px;max-width:320px;animation:toastIn .3s ease;pointer-events:auto;display:flex;align-items:center;gap:10px}
   .toast.success{border-left-color:var(--success)}
@@ -257,13 +227,16 @@
 
   @media (max-width:860px){
     .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:60;box-shadow:0 0 40px rgba(0,0,0,.7)}
-    .sidebar.collapsed{margin-left:-270px}
+    .sidebar.collapsed{margin-left:-280px}
     .chat-inner{padding:18px 14px 24px}
-    .input-zone{padding:0 12px 12px}
+    .input-zone{padding:0 12px 10px}
     .msg{gap:10px}
     .msg-avatar{width:28px;height:28px}
-    .model-menu{min-width:260px}
-    .thanks-footer{padding:10px 14px 12px;font-size:.7rem}
+    .model-menu{min-width:280px}
+    .thanks-footer{padding:9px 14px 10px;font-size:.68rem}
+    .install-btn .lbl{display:none}
+    .install-btn{padding:7px 10px}
+    .topbar{padding:8px 10px;gap:8px}
   }
 </style>
 </head>
@@ -277,10 +250,10 @@
         <path d="M12 2L4 7v10l8 5 8-5V7z"/><path d="M12 22V12"/><path d="M4 7l8 5 8-5"/>
       </svg>
     </div>
-    <div class="brand-text">Shiera AI<small>Multi-Model Chat</small></div>
+    <div class="brand-text">Shiera AI<small>Multi-Model Assistant</small></div>
   </div>
 
-  <button class="new-chat-btn" id="newChatBtn">
+  <button class="new-chat-btn" id="newChatBtn" type="button">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
     </svg>
@@ -292,22 +265,21 @@
 
   <div class="sidebar-foot">
     <span class="dot-live"></span>
-    <span>3 Model Tersedia</span>
+    <span id="modelCount">11 Model Tersedia</span>
   </div>
 </aside>
 
 <!-- ===== MAIN ===== -->
 <main class="main">
   <header class="topbar">
-    <button class="menu-btn" id="menuBtn" title="Menu">
+    <button class="menu-btn" id="menuBtn" title="Menu" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
     </button>
 
-    <!-- MODEL SELECTOR -->
     <div class="model-select" id="modelSelect">
-      <button class="model-btn" id="modelBtn">
+      <button class="model-btn" id="modelBtn" type="button">
         <span class="mb-icon" id="modelIcon"></span>
         <span id="modelLabel">Shiera 6 GEO</span>
         <span class="ver" id="modelVer">gpt-3.5</span>
@@ -315,42 +287,18 @@
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
-      <div class="model-menu" id="modelMenu">
-        <div class="model-item" data-model="geo">
-          <div class="mi-icon" style="background:linear-gradient(135deg,#10a37f,#0d8a6a)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="mi-info">
-            <div class="mi-name">Shiera 6 GEO</div>
-            <div class="mi-desc">GPT-3.5 Turbo · cepat & serbaguna</div>
-          </div>
-          <svg class="mi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="model-item" data-model="abino">
-          <div class="mi-icon" style="background:linear-gradient(135deg,#d97757,#c15f3c)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          </div>
-          <div class="mi-info">
-            <div class="mi-name">Shiera 5 Abino</div>
-            <div class="mi-desc">Claude · analitis & kreatif</div>
-          </div>
-          <svg class="mi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="model-item" data-model="akhion">
-          <div class="mi-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
-          </div>
-          <div class="mi-info">
-            <div class="mi-name">Shiera 1 Akhion</div>
-            <div class="mi-desc">Copilot · bantuan teknis & coding</div>
-          </div>
-          <svg class="mi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-      </div>
+      <div class="model-menu" id="modelMenu"></div>
     </div>
 
     <div class="topbar-right">
-      <button class="icon-btn" id="clearChatBtn" title="Bersihkan percakapan">
+      <button class="install-btn hidden" id="installBtn" title="Install Aplikasi" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span class="lbl">Install</span>
+      </button>
+      <button class="icon-btn" id="clearChatBtn" title="Bersihkan" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="3 6 5 6 21 6"/>
           <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
@@ -368,23 +316,35 @@
           </svg>
         </div>
         <h1>Halo, saya Shiera AI 👋</h1>
-        <p>Pilih model AI favoritmu di atas — <strong>Shiera 6 GEO</strong>, <strong>Shiera 5 Abino</strong>, atau <strong>Shiera 1 Akhion</strong>. Semua percakapan tersambung otomatis.</p>
+        <p>Asisten multi-model dengan <strong>11 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
 
         <div class="suggestions" id="suggestions">
           <div class="suggestion" data-q="Jelaskan apa itu kecerdasan buatan dengan bahasa sederhana">
-            <div class="s-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Apa itu AI?</div>
+            <div class="s-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Apa itu AI?
+            </div>
             <div class="s-desc">Penjelasan sederhana tentang AI</div>
           </div>
           <div class="suggestion" data-q="Buatkan contoh kode JavaScript untuk fetch API">
-            <div class="s-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Contoh Coding</div>
+            <div class="s-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              Contoh Coding
+            </div>
             <div class="s-desc">Contoh kode siap pakai</div>
           </div>
           <div class="suggestion" data-q="Tuliskan puisi pendek tentang pagi hari">
-            <div class="s-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg> Tulis Kreatif</div>
+            <div class="s-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>
+              Tulis Kreatif
+            </div>
             <div class="s-desc">Puisi, cerita, atau caption</div>
           </div>
           <div class="suggestion" data-q="Berikan 5 tips produktivitas untuk pelajar">
-            <div class="s-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> Tips & Saran</div>
+            <div class="s-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              Tips & Saran
+            </div>
             <div class="s-desc">Saran bermanfaat</div>
           </div>
         </div>
@@ -393,28 +353,46 @@
   </div>
 
   <div class="input-zone">
+    <div class="attach-preview" id="attachPreview">
+      <img id="attachImg" src="" alt="">
+      <div class="ap-info">
+        <div class="ap-name" id="attachName">gambar.jpg</div>
+        <div class="ap-hint">Akan otomatis pakai model <strong>Shiera Noma's</strong></div>
+      </div>
+      <button class="ap-remove" id="attachRemove" title="Hapus gambar" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
     <div class="input-wrap">
       <textarea id="chatInput" rows="1" placeholder="Kirim pesan ke Shiera AI..."></textarea>
-      <button class="tool-btn" id="imageBtn" title="Buat gambar dari teks (Shiera Image)">
+      <button class="tool-btn" id="uploadBtn" title="Upload gambar (Shiera Noma's)" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </button>
+      <button class="tool-btn" id="imageBtn" title="Buat gambar dari teks" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2"/>
           <circle cx="8.5" cy="8.5" r="1.5"/>
           <path d="M21 15l-5-5L5 21"/>
         </svg>
       </button>
-      <button class="send-btn" id="sendBtn" title="Kirim">
+      <button class="send-btn" id="sendBtn" title="Kirim" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"/>
           <polygon points="22 2 15 22 11 13 2 9 22 2"/>
         </svg>
       </button>
     </div>
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
     <div class="input-hint">
-      <kbd>Enter</kbd> kirim · <kbd>Shift</kbd>+<kbd>Enter</kbd> baris baru · 🎨 tombol gambar
+      <kbd>Enter</kbd> kirim · <kbd>Shift</kbd>+<kbd>Enter</kbd> baris baru · 📎 upload gambar · 🎨 buat gambar
     </div>
   </div>
 
-  <!-- ===== THANKS YOU FOR CANDRA ===== -->
   <div class="thanks-footer">
     <span class="heart">❤️</span>
     Thanks You for <strong>Candra</strong>
@@ -426,72 +404,77 @@
 
 <script>
 /* ============================================================
-   SHIERA AI · MULTI-MODEL CHAT + IMAGE GENERATOR
+   SHIERA AI · MULTI-MODEL ASSISTANT
+   - 10 Chatbot + 1 Image Analyzer (Noma's) + 1 Image Generator (Ideogram)
    ============================================================ */
 
-/* Definisi model */
 const MODELS = {
-  geo: {
-    id: "geo",
-    name: "Shiera 6 GEO",
-    ver: "gpt-3.5",
-    endpoint: "https://api.nexray.eu.cc/ai/gpt-3.5-turbo",
-    desc: "GPT-3.5 Turbo · cepat & serbaguna",
-    color: "#10a37f",
-    colorB: "#0d8a6a",
-    iconSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`
-  },
-  abino: {
-    id: "abino",
-    name: "Shiera 5 Abino",
-    ver: "claude",
-    endpoint: "https://api.nexray.eu.cc/ai/claude",
-    desc: "Claude · analitis & kreatif",
-    color: "#d97757",
-    colorB: "#c15f3c",
-    iconSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`
-  },
-  akhion: {
-    id: "akhion",
-    name: "Shiera 1 Akhion",
-    ver: "copilot",
-    endpoint: "https://api.nexray.eu.cc/ai/copilot",
-    desc: "Copilot · bantuan teknis & coding",
-    color: "#2563eb",
-    colorB: "#1d4ed8",
-    iconSvg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>`
-  }
+  /* ===== CHATBOT ===== */
+  geo:      { type:"chat", name:"Shiera 6 GEO",        ver:"gpt-3.5",     endpoint:"https://api.nexray.eu.cc/ai/gpt-3.5-turbo", param:"text",  desc:"GPT-3.5 Turbo · cepat & serbaguna", color:"#10a37f", colorB:"#0d8a6a",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
+
+  abino:    { type:"chat", name:"Shiera 5 Abino",      ver:"claude",      endpoint:"https://api.nexray.eu.cc/ai/claude", param:"text",  desc:"Claude · analitis & kreatif", color:"#d97757", colorB:"#c15f3c",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
+
+  akhion:   { type:"chat", name:"Shiera 1 Akhion",     ver:"copilot",     endpoint:"https://api.nexray.eu.cc/ai/copilot", param:"text",  desc:"Copilot · bantuan teknis & coding", color:"#2563eb", colorB:"#1d4ed8",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>` },
+
+  thinking: { type:"chat", name:"Shiera Thingking",    ver:"deepseek-r1", endpoint:"https://api.synoxcloud.xyz/ai-chat/deepseek-r1", param:"q", desc:"DeepSeek R1 · reasoning mendalam", color:"#7c3aed", colorB:"#6d28d9",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>` },
+
+  xena:     { type:"chat", name:"Shiera XENA",         ver:"gpt-5.5",     endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-5.5", param:"pesan", desc:"GPT-5.5 · canggih generasi baru", color:"#0ea5e9", colorB:"#0284c7",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>` },
+
+  orcha:    { type:"chat", name:"Shira Orcha",         ver:"qwen3-max",   endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-max", param:"pesan", desc:"Qwen3 Max · multibahasa & analitis", color:"#f59e0b", colorB:"#d97706",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>` },
+
+  mangkuwana:{type:"chat", name:"Shiera Mangkuwana",   ver:"grok-4.1",    endpoint:"https://api.synoxcloud.xyz/ai-chat/x.ai-grok-4.1", param:"pesan", desc:"Grok 4.1 · realtime & berani", color:"#111827", colorB:"#374151",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"/><circle cx="12" cy="12" r="3"/></svg>` },
+
+  ornama:   { type:"chat", name:"Shiera Ornama",       ver:"qwen3-next",  endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-next-80b-a3b-instruct", param:"prompt", desc:"Qwen3-Next 80B · cepat & efisien", color:"#8b5cf6", colorB:"#7c3aed",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>` },
+
+  fixenpro: { type:"chat", name:"Shiera Fixen PRO",    ver:"gemini-3.1",  endpoint:"https://api.synoxcloud.xyz/ai-chat/gemini-3.1-pro", param:"pesan", desc:"Gemini 3.1 Pro · multimodal canggih", color:"#4285f4", colorB:"#1a73e8",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>` },
+
+  fixenflash:{type:"chat", name:"Shiera Fixen Flash",  ver:"gemini-3",    endpoint:"https://api.synoxcloud.xyz/ai-chat/gemini-3-pro", param:"pesan", desc:"Gemini 3 Pro · super cepat", color:"#34a853", colorB:"#188038",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
+
+  nomas:    { type:"chat-image", name:"Shiera Noma's", ver:"gpt-4o-mini", endpoint:"https://api.synoxcloud.xyz/ai-chat/gpt-4o-mini", param:"prompt", desc:"Analisis gambar (otomatis saat upload)", color:"#ec4899", colorB:"#be185d",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>` },
+
+  /* ===== IMAGE GENERATOR (hanya Ideogram) ===== */
+  ba1:      { type:"image", name:"Shiera B.A 1",       ver:"ideogram",    endpoint:"https://api.nexray.eu.cc/ai/ideogram", param:"prompt", desc:"Ideogram · grafis & tipografi", color:"#a855f7", colorB:"#7c3aed",
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v10l8 5 8-5V7z"/><path d="M12 22V12"/><path d="M4 7l8 5 8-5"/></svg>` }
 };
 
-const IMG_API = "https://api.nexray.eu.cc/ai/ideogram";
+const UPLOAD_API = "https://rupld.zone.id/api/upload";
+const API_KEY = "FREE";
 
+/* ===== DOM ===== */
 const $ = (id) => document.getElementById(id);
-const sidebar     = $("sidebar");
-const menuBtn     = $("menuBtn");
-const newChatBtn  = $("newChatBtn");
-const chatList    = $("chatList");
-const chatScroll  = $("chatScroll");
-const chatInner   = $("chatInner");
-const welcomeView = $("welcomeView");
-const suggestions = $("suggestions");
-const chatInput   = $("chatInput");
-const sendBtn     = $("sendBtn");
-const imageBtn    = $("imageBtn");
-const clearChatBtn= $("clearChatBtn");
-const toastWrap   = $("toastWrap");
-const modelSelect = $("modelSelect");
-const modelBtn    = $("modelBtn");
-const modelMenu   = $("modelMenu");
-const modelIcon   = $("modelIcon");
-const modelLabel  = $("modelLabel");
-const modelVer    = $("modelVer");
+const sidebar = $("sidebar"), menuBtn = $("menuBtn"), newChatBtn = $("newChatBtn");
+const chatList = $("chatList"), chatScroll = $("chatScroll"), chatInner = $("chatInner");
+const welcomeView = $("welcomeView"), suggestions = $("suggestions");
+const chatInput = $("chatInput"), sendBtn = $("sendBtn"), imageBtn = $("imageBtn"), uploadBtn = $("uploadBtn");
+const clearChatBtn = $("clearChatBtn"), toastWrap = $("toastWrap");
+const modelSelect = $("modelSelect"), modelBtn = $("modelBtn"), modelMenu = $("modelMenu");
+const modelIcon = $("modelIcon"), modelLabel = $("modelLabel"), modelVer = $("modelVer");
+const installBtn = $("installBtn");
+const fileInput = $("fileInput");
+const attachPreview = $("attachPreview"), attachImg = $("attachImg"), attachName = $("attachName"), attachRemove = $("attachRemove");
 
+/* ===== STATE ===== */
 let conversations = [];
 let activeId = null;
 let isSending = false;
 let currentModel = "geo";
+let pendingFile = null;
+let pendingPreviewUrl = null;
+let deferredPrompt = null;
+let pendingImageUrlCache = null;
 
-const STORAGE_KEY = "shiera_ai_chats_v4";
+const STORAGE_KEY = "shiera_ai_chats_v8";
 
 /* ===== STORAGE ===== */
 function loadFromStorage(){
@@ -519,27 +502,78 @@ function createConversation(switchTo=true){
 }
 function getActive(){ return conversations.find(c=>c.id===activeId); }
 
-/* ===== TOMBOL ===== */
+/* ===== BUTTONS ===== */
 function updateButtons(){
   const hasText = chatInput.value.trim().length > 0;
-  const d = !hasText || isSending;
-  sendBtn.disabled = d;
-  imageBtn.disabled = d;
+  const hasFile = !!pendingFile;
+  const busy = isSending;
+  sendBtn.disabled = (!hasText && !hasFile) || busy;
+  imageBtn.disabled = !hasText || busy;
+  uploadBtn.disabled = busy;
 }
 
-/* ===== MODEL SELECTOR ===== */
+/* ===== RENDER MODEL MENU ===== */
+function renderModelMenu(){
+  const chatModels = Object.entries(MODELS).filter(([k,v]) => v.type === "chat" || v.type === "chat-image");
+  const imageModels = Object.entries(MODELS).filter(([k,v]) => v.type === "image");
+
+  let html = `<div class="model-menu-title">💬 Chatbot</div>`;
+  chatModels.forEach(([key,m])=>{
+    html += `
+      <div class="model-item" data-model="${key}">
+        <div class="mi-icon" style="background:linear-gradient(135deg,${m.color},${m.colorB})">${m.icon}</div>
+        <div class="mi-info">
+          <div class="mi-name">${m.name}</div>
+          <div class="mi-desc">${m.desc}</div>
+        </div>
+        <svg class="mi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>`;
+  });
+  html += `<div class="model-menu-title" style="padding-top:12px;border-top:1px solid var(--border);margin-top:6px;">🎨 Image Generator</div>`;
+  imageModels.forEach(([key,m])=>{
+    html += `
+      <div class="model-item" data-model="${key}">
+        <div class="mi-icon" style="background:linear-gradient(135deg,${m.color},${m.colorB})">${m.icon}</div>
+        <div class="mi-info">
+          <div class="mi-name">${m.name}</div>
+          <div class="mi-desc">${m.desc}</div>
+        </div>
+        <svg class="mi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>`;
+  });
+  modelMenu.innerHTML = html;
+
+  const total = Object.keys(MODELS).length;
+  const countEl = $("modelCount");
+  if(countEl) countEl.textContent = total + " Model Tersedia";
+
+  modelMenu.querySelectorAll(".model-item").forEach(item => {
+    item.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      const id = item.dataset.model;
+      if(!MODELS[id]) return;
+      currentModel = id;
+      const conv = getActive();
+      if(conv) conv.model = id;
+      saveToStorage(); updateModelBadge();
+      modelSelect.classList.remove("open");
+      toast(`Model: ${MODELS[id].name}`, "success");
+    });
+  });
+}
+
 function updateModelBadge(){
-  const m = MODELS[currentModel];
+  const m = MODELS[currentModel] || MODELS.geo;
   modelIcon.style.background = `linear-gradient(135deg,${m.color},${m.colorB})`;
-  modelIcon.innerHTML = m.iconSvg;
+  modelIcon.innerHTML = m.icon;
   modelLabel.textContent = m.name;
   modelVer.textContent = m.ver;
-
-  document.querySelectorAll(".model-item").forEach(el=>{
+  modelMenu.querySelectorAll(".model-item").forEach(el=>{
     el.classList.toggle("active", el.dataset.model === currentModel);
   });
 }
 
+/* ===== EVENT: MODEL SELECTOR ===== */
 modelBtn.addEventListener("click", (e)=>{
   e.stopPropagation();
   modelSelect.classList.toggle("open");
@@ -548,21 +582,7 @@ document.addEventListener("click", (e)=>{
   if(!modelSelect.contains(e.target)) modelSelect.classList.remove("open");
 });
 
-modelMenu.addEventListener("click", (e)=>{
-  const item = e.target.closest(".model-item");
-  if(!item) return;
-  const id = item.dataset.model;
-  if(!MODELS[id]) return;
-  currentModel = id;
-  const conv = getActive();
-  if(conv) conv.model = id;
-  saveToStorage();
-  updateModelBadge();
-  modelSelect.classList.remove("open");
-  toast(`Model: ${MODELS[id].name}`,"success");
-});
-
-/* ===== SIDEBAR ===== */
+/* ===== RENDER CHAT LIST ===== */
 function renderChatList(){
   chatList.innerHTML = "";
   if(!conversations.length){
@@ -630,7 +650,7 @@ function buildMessageEl(m,index){
   } else {
     const mm = MODELS[m.model] || MODELS.geo;
     avatar.style.background = `linear-gradient(135deg,${mm.color},${mm.colorB})`;
-    avatar.innerHTML = mm.iconSvg;
+    avatar.innerHTML = mm.icon;
   }
 
   const content = document.createElement("div");
@@ -642,7 +662,8 @@ function buildMessageEl(m,index){
   if(type==="user"){
     role.textContent = "Anda";
   } else if(type==="gen"){
-    role.innerHTML = `Shiera Image <span class="tag pink">Ideogram</span>`;
+    const mm = MODELS[m.model] || MODELS.ba1;
+    role.innerHTML = `${escapeHtml(mm.name)} <span class="tag pink">${escapeHtml(mm.ver)}</span>`;
   } else {
     const mm = MODELS[m.model] || MODELS.geo;
     role.innerHTML = `${escapeHtml(mm.name)} <span class="tag" style="background:${hexA(mm.color,.12)};color:${mm.color};border:1px solid ${hexA(mm.color,.3)}">${escapeHtml(mm.ver)}</span>`;
@@ -650,23 +671,45 @@ function buildMessageEl(m,index){
 
   content.appendChild(role);
 
-  if(type==="gen" && m.imageUrl){
+  if(type==="user"){
+    const body = document.createElement("div");
+    body.className = "msg-body";
+    if(m.content) body.textContent = m.content;
+    if(m.imageUrl && /^https?:\/\//.test(m.imageUrl)){
+      const box = document.createElement("div");
+      box.className = "uploaded-img";
+      const img = document.createElement("img");
+      img.src = m.imageUrl;
+      img.alt = "gambar";
+      img.onerror = () => { box.remove(); };
+      box.appendChild(img);
+      body.appendChild(box);
+    }
+    content.appendChild(body);
+  }
+  else if(type==="gen" && m.imageUrl){
     const box = document.createElement("div");
     box.className = "img-result";
-    box.innerHTML = `
-      <img src="${m.imageUrl}" alt="Hasil gambar">
-      <div class="img-meta">
-        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🎨 ${escapeHtml(m.prompt || "")}</span>
-        <button data-dl>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg> Unduh
-        </button>
-      </div>`;
-    box.querySelector("[data-dl]").addEventListener("click",()=> downloadImage(m.imageUrl, m.prompt));
+    const img = document.createElement("img");
+    img.src = m.imageUrl;
+    img.alt = "Hasil gambar";
+    img.onerror = () => { img.alt = "Gagal memuat gambar"; };
+    box.appendChild(img);
+    const meta = document.createElement("div");
+    meta.className = "img-meta";
+    meta.innerHTML = `
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🎨 ${escapeHtml(m.prompt || "")}</span>
+      <button data-dl>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg> Unduh
+      </button>`;
+    meta.querySelector("[data-dl]").addEventListener("click",()=> downloadImage(m.imageUrl, m.prompt));
+    box.appendChild(meta);
     content.appendChild(box);
-  } else {
+  }
+  else {
     const body = document.createElement("div");
     body.className = "msg-body";
     if(m.role==="user") body.textContent = m.content;
@@ -681,23 +724,10 @@ function buildMessageEl(m,index){
     copyBtn.className = "msg-action";
     copyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Salin`;
     copyBtn.addEventListener("click",()=>{
+      if(!m.content) return;
       navigator.clipboard.writeText(m.content).then(()=> toast("Teks disalin.","success"));
     });
     actions.appendChild(copyBtn);
-
-    if(type==="ai" && index === getActive().messages.length-1 && !isSending){
-      const regen = document.createElement("button");
-      regen.className = "msg-action";
-      regen.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Ulangi`;
-      regen.addEventListener("click",()=>{
-        const conv = getActive();
-        if(conv.messages.length && conv.messages[conv.messages.length-1].role==="ai") conv.messages.pop();
-        saveToStorage(); renderActiveChat();
-        const lastUser = [...conv.messages].reverse().find(x=>x.role==="user");
-        if(lastUser) sendToAI(lastUser.content, true);
-      });
-      actions.appendChild(regen);
-    }
     content.appendChild(actions);
   }
 
@@ -742,10 +772,7 @@ function escapeHtml(s){
 function escapeAttr(s){ return String(s).replace(/"/g,"&quot;"); }
 function hexA(hex,a){
   const h = hex.replace("#","");
-  const r = parseInt(h.substring(0,2),16);
-  const g = parseInt(h.substring(2,4),16);
-  const b = parseInt(h.substring(4,6),16);
-  return `rgba(${r},${g},${b},${a})`;
+  return `rgba(${parseInt(h.substring(0,2),16)},${parseInt(h.substring(2,4),16)},${parseInt(h.substring(4,6),16)},${a})`;
 }
 
 /* ===== INPUT ===== */
@@ -757,7 +784,6 @@ function autoResize(){
 }
 chatInput.addEventListener("input", ()=>{ autoResize(); updateButtons(); });
 chatInput.addEventListener("keyup", updateButtons);
-chatInput.addEventListener("change", updateButtons);
 chatInput.addEventListener("paste", ()=> setTimeout(updateButtons, 0));
 chatInput.addEventListener("keydown",(e)=>{
   if(e.key==="Enter" && !e.shiftKey){
@@ -769,7 +795,7 @@ chatInput.addEventListener("keydown",(e)=>{
 sendBtn.addEventListener("click", (e)=>{
   e.preventDefault();
   if(sendBtn.disabled){
-    if(!chatInput.value.trim()) toast("Tulis pesan dulu.","warning");
+    if(!chatInput.value.trim() && !pendingFile) toast("Tulis pesan atau upload gambar dulu.","warning");
     return;
   }
   handleSend();
@@ -784,46 +810,107 @@ imageBtn.addEventListener("click", (e)=>{
   handleGenerateImage();
 });
 
-function handleSend(){
-  const text = chatInput.value.trim();
-  if(!text || isSending) return;
-  chatInput.value = ""; autoResize(); updateButtons();
-  sendToAI(text, false);
+uploadBtn.addEventListener("click", ()=>{
+  if(isSending) return;
+  fileInput.click();
+});
+
+/* ===== UPLOAD GAMBAR ===== */
+fileInput.addEventListener("change", (e)=>{
+  const file = e.target.files?.[0];
+  if(!file) return;
+  if(!file.type.startsWith("image/")){
+    toast("Hanya file gambar yang didukung.","warning");
+    return;
+  }
+  if(file.size > 8 * 1024 * 1024){
+    toast("Ukuran gambar maksimal 8MB.","warning");
+    return;
+  }
+  pendingFile = file;
+  if(pendingPreviewUrl) URL.revokeObjectURL(pendingPreviewUrl);
+  pendingPreviewUrl = URL.createObjectURL(file);
+  attachImg.src = pendingPreviewUrl;
+  attachName.textContent = file.name;
+  attachPreview.classList.add("show");
+  updateButtons();
+  toast("Gambar siap. Akan otomatis pakai Shiera Noma's.","success");
+  fileInput.value = "";
+});
+
+attachRemove.addEventListener("click", ()=>{
+  pendingFile = null;
+  pendingImageUrlCache = null;
+  if(pendingPreviewUrl){ URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = null; }
+  attachImg.src = "";
+  attachPreview.classList.remove("show");
+  updateButtons();
+});
+
+async function uploadImage(file){
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch(UPLOAD_API, { method:"POST", body: fd });
+  if(!res.ok) throw new Error(`Upload gagal: HTTP ${res.status}`);
+  const data = await res.json();
+  const url = data.url || data.data?.url || data.image || data.result?.url ||
+              data.data?.image || data.result || data.link || data.data?.link;
+  if(!url || typeof url !== "string") throw new Error("URL gambar tidak ditemukan di respons upload.");
+  return url;
 }
 
-/* ===== KONTEKS PERCAKAPAN ===== */
+/* ===== SEND ===== */
+async function handleSend(){
+  if(isSending) return;
+  const text = chatInput.value.trim();
+  const hasFile = !!pendingFile;
+  if(!text && !hasFile) return;
+
+  const fileToUpload = pendingFile;
+  const modelAtSend = hasFile ? "nomas" : currentModel;
+
+  chatInput.value = ""; autoResize();
+  if(hasFile){
+    if(pendingPreviewUrl){ URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = null; }
+    attachImg.src = "";
+    attachPreview.classList.remove("show");
+    pendingFile = null;
+  }
+  updateButtons();
+
+  sendToAI(text || "Tolong jelaskan gambar ini.", false, fileToUpload, modelAtSend);
+}
+
 function buildContextPrompt(conv, newUserText){
   const history = conv.messages
     .filter(m => m.role === "user" || m.role === "ai")
     .slice(-16);
-
   if(history.length === 0) return newUserText;
-
-  let ctx = "Berikut adalah percakapan kita sebelumnya. Jawab pesan TERAKHIR dari user dengan tetap mengingat konteks di atas.\n\n";
+  let ctx = "Berikut percakapan kita sebelumnya. Jawab pesan TERAKHIR dari user dengan mengingat konteks di atas.\n\n";
   history.forEach(m=>{
     const who = m.role === "user" ? "User" : "Assistant";
-    const content = String(m.content).slice(0, 600);
+    const content = String(m.content || "").slice(0, 600);
     ctx += `${who}: ${content}\n`;
   });
   ctx += `\nUser: ${newUserText}\nAssistant:`;
   return ctx;
 }
 
-/* ===== SEND ===== */
-async function sendToAI(userText, isRegen){
+async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
   const conv = getActive();
   if(!conv) return;
 
-  const modelId = conv.model || currentModel;
+  const modelId = forcedModelId || conv.model || currentModel;
   const model = MODELS[modelId] || MODELS.geo;
 
   isSending = true;
   updateButtons();
 
   if(!isRegen){
-    conv.messages.push({role:"user",content:userText,ts:Date.now()});
+    const userMsg = { role:"user", content:userText, ts:Date.now(), model:modelId };
+    conv.messages.push(userMsg);
     if(conv.messages.filter(m=>m.role==="user").length===1){
-      conv.title = userText.slice(0,38)+(userText.length>38?"…":"");
+      conv.title = (fileToUpload ? "📎 " : "") + userText.slice(0,38) + (userText.length>38?"…":"");
     }
   }
   saveToStorage(); renderChatList(); renderActiveChat();
@@ -834,13 +921,40 @@ async function sendToAI(userText, isRegen){
   scrollToBottom(true);
 
   try{
-    const contextPrompt = buildContextPrompt(conv, userText);
-    const url = `${model.endpoint}?text=${encodeURIComponent(contextPrompt)}`;
+    let imageUrl = pendingImageUrlCache;
+    if(fileToUpload){
+      const bodyEl = typing.querySelector(".msg-body");
+      if(bodyEl) bodyEl.innerHTML = '<span style="font-size:.8rem;color:var(--text-2)">📤 Mengunggah gambar...</span>';
+      imageUrl = await uploadImage(fileToUpload);
+      pendingImageUrlCache = imageUrl;
 
-    const res = await fetch(url, {headers:{"Accept":"application/json, text/plain, */*"}});
+      // Simpan URL gambar di pesan user terakhir (supaya bisa tampil)
+      const lastUser = [...conv.messages].reverse().find(x => x.role === "user");
+      if(lastUser) lastUser.imageUrl = imageUrl;
+      saveToStorage();
+    }
+
+    let url;
+    const enc = encodeURIComponent;
+    if(model.type === "chat-image" && imageUrl){
+      const session = "uid-" + (localStorage.getItem("shiera_session") || (() => {
+        const s = "s" + Math.random().toString(36).slice(2,10);
+        localStorage.setItem("shiera_session", s);
+        return s;
+      })());
+      url = `${model.endpoint}?${model.param}=${enc(userText)}&image=${enc(imageUrl)}&session=${session}&apikey=${API_KEY}`;
+    } else if(model.endpoint.includes("synoxcloud.xyz/ai-chat/")){
+      const ctxPrompt = buildContextPrompt(conv, userText);
+      url = `${model.endpoint}?${model.param}=${enc(ctxPrompt)}&apikey=${API_KEY}`;
+    } else {
+      const ctxPrompt = buildContextPrompt(conv, userText);
+      url = `${model.endpoint}?${model.param}=${enc(ctxPrompt)}`;
+    }
+
+    const res = await fetch(url, { headers:{ "Accept":"application/json, text/plain, */*" } });
     if(!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
 
-    const ct = res.headers.get("content-type")||"";
+    const ct = res.headers.get("content-type") || "";
     let aiText = "";
     if(ct.includes("application/json")){
       const data = await res.json();
@@ -851,7 +965,7 @@ async function sendToAI(userText, isRegen){
     if(!aiText || !aiText.trim()) aiText = "_(Maaf, saya belum menerima balasan. Coba lagi ya.)_";
 
     typing.remove();
-    conv.messages.push({role:"ai",content:aiText.trim(),ts:Date.now(),model:modelId});
+    conv.messages.push({ role:"ai", content:aiText.trim(), ts:Date.now(), model:modelId });
     saveToStorage(); renderActiveChat(); scrollToBottom(true);
 
   }catch(err){
@@ -865,7 +979,7 @@ async function sendToAI(userText, isRegen){
       </div>
       <div class="msg-content">
         <div class="msg-role">${escapeHtml(model.name)} <span class="tag" style="background:rgba(239,68,68,.12);color:#f87171;border-color:rgba(239,68,68,.3)">Error</span></div>
-        <div class="msg-body">Gagal menghubungi server: <strong>${escapeHtml(err.message)}</strong><br>Coba beberapa saat lagi.</div>
+        <div class="msg-body">Gagal: <strong>${escapeHtml(err.message)}</strong></div>
       </div>`;
     chatInner.appendChild(errEl);
     toast("Gagal mengirim pesan.","error");
@@ -877,13 +991,17 @@ async function sendToAI(userText, isRegen){
   }
 }
 
-/* ===== GENERATE IMAGE ===== */
+/* ===== GENERATE IMAGE (hanya Shiera B.A 1 / Ideogram) ===== */
 async function handleGenerateImage(){
   const prompt = chatInput.value.trim();
   if(!prompt || isSending) return;
 
   const conv = getActive();
   if(!conv) return;
+
+  const modelId = "ba1";
+  const model = MODELS.ba1;
+
   isSending = true;
   updateButtons();
 
@@ -895,16 +1013,16 @@ async function handleGenerateImage(){
   saveToStorage(); renderChatList(); renderActiveChat();
   scrollToBottom(true);
 
-  const loading = buildImageLoadingEl(prompt);
+  const loading = buildImageLoadingEl(prompt, model);
   chatInner.appendChild(loading);
   scrollToBottom(true);
 
   try{
-    const url = `${IMG_API}?prompt=${encodeURIComponent(prompt)}`;
-    const res = await fetch(url, {headers:{"Accept":"image/*, application/json, */*"}});
+    const url = `${model.endpoint}?${model.param}=${encodeURIComponent(prompt)}`;
+    const res = await fetch(url, { headers:{ "Accept":"image/*, application/json, */*" } });
     if(!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
 
-    const ct = res.headers.get("content-type")||"";
+    const ct = res.headers.get("content-type") || "";
     let imgUrl = null;
     if(ct.startsWith("image/")){
       const blob = await res.blob();
@@ -916,7 +1034,7 @@ async function handleGenerateImage(){
     }
 
     loading.remove();
-    conv.messages.push({role:"image",content:"🎨 "+prompt,prompt,imageUrl:imgUrl,ts:Date.now()});
+    conv.messages.push({role:"image", content:"🎨 "+prompt, prompt, imageUrl:imgUrl, ts:Date.now(), model:modelId});
     saveToStorage(); renderActiveChat(); scrollToBottom(true);
     toast("Gambar berhasil dibuat! 🎨","success");
 
@@ -930,7 +1048,7 @@ async function handleGenerateImage(){
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
       <div class="msg-content">
-        <div class="msg-role">Shiera Image <span class="tag" style="background:rgba(239,68,68,.12);color:#f87171;border-color:rgba(239,68,68,.3)">Error</span></div>
+        <div class="msg-role">${escapeHtml(model.name)} <span class="tag" style="background:rgba(239,68,68,.12);color:#f87171;border-color:rgba(239,68,68,.3)">Error</span></div>
         <div class="msg-body">Gagal membuat gambar: <strong>${escapeHtml(err.message)}</strong></div>
       </div>`;
     chatInner.appendChild(errEl);
@@ -943,7 +1061,8 @@ async function handleGenerateImage(){
   }
 }
 
-function buildImageLoadingEl(prompt){
+/* ===== BUILDERS ===== */
+function buildImageLoadingEl(prompt, model){
   const wrap = document.createElement("div");
   wrap.className = "msg gen";
   wrap.innerHTML = `
@@ -951,7 +1070,7 @@ function buildImageLoadingEl(prompt){
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
     </div>
     <div class="msg-content">
-      <div class="msg-role">Shiera Image <span class="tag pink">Ideogram</span></div>
+      <div class="msg-role">${escapeHtml(model.name)} <span class="tag pink">${escapeHtml(model.ver)}</span></div>
       <div class="img-loading">
         <div class="spin"></div>
         <p>Membuat gambar...<br><span style="opacity:.7;font-size:.72rem">"${escapeHtml(prompt.slice(0,60))}${prompt.length>60?"…":""}"</span></p>
@@ -965,7 +1084,7 @@ function buildTypingEl(model){
   wrap.className = "msg ai";
   wrap.innerHTML = `
     <div class="msg-avatar" style="background:linear-gradient(135deg,${model.color},${model.colorB})">
-      ${model.iconSvg}
+      ${model.icon}
     </div>
     <div class="msg-content">
       <div class="msg-role">${escapeHtml(model.name)} <span class="tag" style="background:${hexA(model.color,.12)};color:${model.color};border:1px solid ${hexA(model.color,.3)}">${escapeHtml(model.ver)}</span></div>
@@ -974,6 +1093,7 @@ function buildTypingEl(model){
   return wrap;
 }
 
+/* ===== EXTRACTORS ===== */
 function extractText(data){
   if(data==null) return "";
   if(typeof data==="string") return data;
@@ -1002,7 +1122,9 @@ function extractImageUrl(data){
       data.result, data.result?.url, data.result?.image,
       data.data, data.data?.url, data.data?.image,
       data.data?.[0]?.url, data.images?.[0]?.url,
-      data.output?.url, data.output?.[0]?.url
+      data.output?.url, data.output?.[0]?.url,
+      data.data?.images?.[0]?.url, data.data?.result,
+      data.images, data.urls
     ];
     for(const c of cands){
       if(typeof c==="string" && /^https?:\/\//.test(c)) return c;
@@ -1030,7 +1152,7 @@ function scrollToBottom(smooth=true){
   });
 }
 
-/* ===== SIDEBAR TOGGLE ===== */
+/* ===== SIDEBAR ===== */
 menuBtn.addEventListener("click", ()=> sidebar.classList.toggle("collapsed"));
 if(window.innerWidth<=860) sidebar.classList.add("collapsed");
 
@@ -1069,8 +1191,28 @@ function toast(msg,type="info",duration=3000){
   setTimeout(()=>{ el.classList.add("out"); setTimeout(()=>el.remove(),320); }, duration);
 }
 
+/* ===== PWA INSTALL ===== */
+window.addEventListener("beforeinstallprompt", (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.classList.remove("hidden");
+});
+installBtn.addEventListener("click", async ()=>{
+  if(!deferredPrompt){
+    toast("Gunakan menu browser → 'Add to Home Screen'","warning",4000);
+    return;
+  }
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if(outcome === "accepted") toast("Shiera AI terpasang! 🎉","success");
+  deferredPrompt = null;
+  installBtn.classList.add("hidden");
+});
+window.addEventListener("appinstalled", ()=>{ installBtn.classList.add("hidden"); });
+
 /* ===== INIT ===== */
 loadFromStorage();
+renderModelMenu();
 renderChatList();
 renderActiveChat();
 updateModelBadge();
