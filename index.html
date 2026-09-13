@@ -271,7 +271,7 @@
 
   <div class="sidebar-foot">
     <span class="dot-live"></span>
-    <span id="modelCount">12 Model Tersedia</span>
+    <span id="modelCount">13 Model Tersedia</span>
   </div>
 </aside>
 
@@ -322,7 +322,7 @@
           </svg>
         </div>
         <h1>Halo, saya Shiera AI 👋</h1>
-        <p>Asisten multi-model dengan <strong>12 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
+        <p>Asisten multi-model dengan <strong>13 model AI</strong> + <strong>image generator</strong>. Pilih model di atas, upload gambar untuk analisis, atau klik 🎨 untuk membuat gambar.</p>
 
         <div class="suggestions" id="suggestions">
           <div class="suggestion" data-q="Jelaskan apa itu kecerdasan buatan dengan bahasa sederhana">
@@ -411,6 +411,7 @@
 <script>
 /* ============================================================
    SHIERA AI · MULTI-MODEL ASSISTANT
+   Chat konteks nyambung: setiap request dibungkus prompt konteks
    ============================================================ */
 
 const MODELS = {
@@ -433,7 +434,6 @@ const MODELS = {
   ornama:   { type:"chat", name:"Shiera Ornama",       ver:"qwen3-next",  endpoint:"https://api.synoxcloud.xyz/ai-chat/qwen3-next-80b-a3b-instruct", param:"prompt", desc:"Qwen3-Next 80B · cepat & efisien", color:"#8b5cf6", colorB:"#7c3aed",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>` },
 
-  /* ===== CLAUDE NEW MODELS ===== */
   hubi:     { type:"chat", name:"Shiera Hubi",         ver:"opus-4.5",    endpoint:"https://api.synoxcloud.xyz/ai-chat/claude-opus-4.5", param:"pesan", desc:"Claude Opus 4.5 · powerful & presisi", color:"#d97757", colorB:"#c15f3c",
     icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>` },
 
@@ -484,7 +484,7 @@ let pendingPreviewUrl = null;
 let deferredPrompt = null;
 let pendingImageUrlCache = null;
 
-const STORAGE_KEY = "shiera_ai_chats_v10";
+const STORAGE_KEY = "shiera_ai_chats_v11";
 
 /* ===== STORAGE ===== */
 function loadFromStorage(){
@@ -890,21 +890,49 @@ async function handleSend(){
   sendToAI(text || "Tolong jelaskan gambar ini.", false, fileToUpload, modelAtSend);
 }
 
+/* ============================================================
+   KONTEKS PERCAKAPAN
+   Karena API tidak punya parameter "history", kita bungkus
+   seluruh riwayat + pesan baru jadi satu prompt kontekstual.
+   ============================================================ */
 function buildContextPrompt(conv, newUserText){
   const history = conv.messages
-    .filter(m => m.role === "user" || m.role === "ai")
-    .slice(-16);
+    .filter(m => (m.role === "user" || m.role === "ai") && m.content)
+    .slice(-20);
+
   if(history.length === 0) return newUserText;
-  let ctx = "Berikut percakapan kita sebelumnya. Jawab pesan TERAKHIR dari user dengan mengingat konteks di atas.\n\n";
+
+  const firstUser = conv.messages.find(m => m.role === "user" && m.content);
+  const topikUtama = firstUser ? String(firstUser.content).slice(0, 150) : "";
+
+  /* Batas total karakter adaptif */
+  const MAX_TOTAL = 6000;
+  const HEADER = 500;
+  const FOOTER = 400;
+  const budget = Math.max(500, MAX_TOTAL - HEADER - FOOTER);
+  const perMsg = Math.max(120, Math.floor(budget / history.length));
+
+  let ctx = `[INSTRUKSI SISTEM]
+Kamu MELANJUTKAN percakapan berjalan. Ingat semua yang sudah dibahas.
+JANGAN ulangi sapaan/perkenalan. Jawab pesan TERAKHIR user dengan alami.
+Kalau user bilang "itu", "tadi", "sebelumnya" — rujuk ke percakapan di bawah.
+`;
+
+  if(topikUtama) ctx += `\n[TOPIK UTAMA]\n${topikUtama}\n`;
+
+  ctx += `\n[RIWAYAT PERCAKAPAN]\n`;
   history.forEach(m=>{
-    const who = m.role === "user" ? "User" : "Assistant";
-    const content = String(m.content || "").slice(0, 600);
+    const who = m.role === "user" ? "User" : "Asisten";
+    let content = String(m.content);
+    if(content.length > perMsg) content = content.slice(0, perMsg) + "…";
     ctx += `${who}: ${content}\n`;
   });
-  ctx += `\nUser: ${newUserText}\nAssistant:`;
+
+  ctx += `\n[PESAN BARU USER]\n${newUserText}\n\n[JAWABAN ASISTEN]\n`;
   return ctx;
 }
 
+/* ===== KIRIM KE AI ===== */
 async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
   const conv = getActive();
   if(!conv) return;
@@ -942,9 +970,13 @@ async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
       saveToStorage();
     }
 
+    /* Bangun konteks percakapan */
+    const ctxPrompt = buildContextPrompt(conv, userText);
+
     let url;
     const enc = encodeURIComponent;
     if(model.type === "chat-image" && imageUrl){
+      /* Noma's: pakai pesan mentah (single-turn), tidak ada konteks chat */
       const session = "uid-" + (localStorage.getItem("shiera_session") || (() => {
         const s = "s" + Math.random().toString(36).slice(2,10);
         localStorage.setItem("shiera_session", s);
@@ -952,10 +984,8 @@ async function sendToAI(userText, isRegen, fileToUpload, forcedModelId){
       })());
       url = `${model.endpoint}?${model.param}=${enc(userText)}&image=${enc(imageUrl)}&session=${session}&apikey=${API_KEY}`;
     } else if(model.endpoint.includes("synoxcloud.xyz/ai-chat/")){
-      const ctxPrompt = buildContextPrompt(conv, userText);
       url = `${model.endpoint}?${model.param}=${enc(ctxPrompt)}&apikey=${API_KEY}`;
     } else {
-      const ctxPrompt = buildContextPrompt(conv, userText);
       url = `${model.endpoint}?${model.param}=${enc(ctxPrompt)}`;
     }
 
