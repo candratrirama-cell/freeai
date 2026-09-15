@@ -5,132 +5,543 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🔗 klt.my.id — Pemendek URL</title>
 <meta name="description" content="Pemendek URL cepat dan aman." />
+
+<!-- ===== IKLAN SCRIPT 1 ===== -->
+<script src="https://pl31354232.profitableratecpmnetwork.com/0b/b5/f2/0bb5f2a96793da70eae62a445f08734b.js"></script>
+<!-- ===== IKLAN SCRIPT 3 ===== -->
+<script src="https://pl31354230.profitableratecpmnetwork.com/3b/e0/0a/3be00a8dc61d7a091b9ab9d9ebeeb8bf.js"></script>
+
 <style>
+  :root {
+    --bg-1: #0a0e1a;
+    --card: rgba(30, 41, 59, 0.7);
+    --border: rgba(99, 102, 241, 0.15);
+    --border-hi: rgba(99, 102, 241, 0.4);
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-mute: #64748b;
+    --accent: #6366f1;
+    --accent-2: #8b5cf6;
+    --accent-3: #ec4899;
+    --ok: #4ade80;
+    --err: #f87171;
+  }
+
   * { box-sizing: border-box; }
+
   body {
     margin: 0; min-height: 100vh;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: radial-gradient(circle at 30% 20%, #1e293b, #0f172a 70%);
-    color: #e2e8f0;
+    color: var(--text);
+    background: var(--bg-1);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(99,102,241,0.18), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(236,72,153,0.14), transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(139,92,246,0.08), transparent 60%);
+    background-attachment: fixed;
     display: flex; align-items: center; justify-content: center;
-    padding: 24px;
+    padding: 24px 16px;
+    overflow-x: hidden;
   }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    width: 100%; max-width: 620px;
+    position: relative; z-index: 1;
+  }
+
+  /* ======================== HEADER ======================== */
+  .brand { text-align: center; margin-bottom: 28px; }
+  .logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+    box-shadow:
+      0 10px 40px rgba(99,102,241,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+    font-size: 2rem;
+    margin-bottom: 14px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .brand h1 {
+    margin: 0 0 4px;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand .tagline { color: var(--text-dim); font-size: 0.9rem; }
+  .brand .domains {
+    display: inline-flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center; margin-top: 10px;
+  }
+  .domain-pill {
+    font-size: 0.72rem; font-weight: 600;
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.25);
+    color: #a5b4fc;
+  }
+
+  /* ======================== IKLAN BOX ======================== */
+  .ad-slot {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(15,23,42,0.5);
+    border: 1px dashed rgba(99,102,241,0.2);
+    border-radius: 12px;
+    text-align: center;
+    min-height: 60px;
+    overflow: hidden;
+  }
+  .ad-slot .ad-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-mute);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  /* ======================== CARD ======================== */
   .card {
-    width: 100%; max-width: 560px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    background: var(--card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
   }
-  h1 { margin: 0 0 4px; font-size: 1.5rem; }
-  .sub { color: #94a3b8; font-size: .9rem; margin-bottom: 24px; }
-  .sub b { color: #a5b4fc; }
-  input {
-    width: 100%; padding: 14px 16px;
+  .card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.6), transparent);
+  }
+
+  /* ======================== INPUT ======================== */
+  .input-group { position: relative; margin-bottom: 14px; }
+  .input-group input {
+    width: 100%;
+    padding: 16px 18px 16px 46px;
     font-size: 1rem; font-family: inherit;
-    color: #e2e8f0; background: #0f172a;
-    border: 1px solid #334155; border-radius: 10px;
-    outline: none; transition: border-color .2s;
+    color: var(--text);
+    background: rgba(15,23,42,0.7);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    transition: all .25s ease;
   }
-  input:focus { border-color: #6366f1; }
-  button {
-    width: 100%; margin-top: 12px; padding: 14px;
-    font-size: 1rem; font-weight: 600; font-family: inherit;
-    color: #fff; background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    border: none; border-radius: 10px; cursor: pointer;
-    transition: opacity .2s, transform .1s;
+  .input-group input::placeholder { color: var(--text-mute); }
+  .input-group input:focus {
+    border-color: var(--border-hi);
+    background: rgba(15,23,42,0.95);
+    box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
   }
-  button:hover { opacity: .9; }
-  button:active { transform: scale(.98); }
-  button:disabled { opacity: .5; cursor: not-allowed; }
+  .input-icon {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-mute);
+    font-size: 1.1rem;
+    pointer-events: none;
+    transition: color .2s;
+  }
+  .input-group input:focus ~ .input-icon { color: var(--accent); }
+
+  /* ======================== BUTTON ======================== */
+  .btn-shorten {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem; font-weight: 700; font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    background-size: 200% 200%;
+    border: none; border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform .15s ease, box-shadow .25s ease;
+    box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-shorten:hover {
+    box-shadow: 0 12px 32px rgba(99,102,241,0.5);
+    animation: gradient 3s ease infinite;
+  }
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  .btn-shorten:active { transform: scale(.98); }
+  .btn-shorten:disabled { opacity: .6; cursor: not-allowed; animation: none; }
+  .btn-shorten .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ======================== RESULT ======================== */
   .result {
-    margin-top: 20px; padding: 16px;
-    background: #0f172a; border: 1px dashed #334155;
-    border-radius: 10px; display: none;
+    margin-top: 20px; max-height: 0; overflow: hidden;
+    opacity: 0;
+    transition: max-height .5s ease, opacity .4s ease, margin-top .3s ease;
   }
-  .result.show { display: block; animation: pop .25s ease-out; }
-  @keyframes pop {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .result.show { max-height: 800px; opacity: 1; }
+  .result-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-mute);
+    margin-bottom: 12px;
+    font-weight: 600;
   }
-  .result .label {
-    font-size: .75rem; text-transform: uppercase;
-    letter-spacing: .05em; color: #64748b; margin-bottom: 8px;
+  .result-header::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 8px var(--ok);
   }
-  .result a {
-    color: #a5b4fc; word-break: break-all;
-    text-decoration: none; font-weight: 700; font-size: 1.05rem;
+  .link-item {
+    background: rgba(15,23,42,0.8);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    transition: all .2s ease;
+    position: relative; overflow: hidden;
   }
-  .result a:hover { text-decoration: underline; }
-  .row { display: flex; gap: 8px; margin-top: 10px; }
-  .row button {
-    margin-top: 0; width: auto; flex: 1;
-    padding: 10px 14px; font-size: .85rem;
+  .link-item::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
   }
-  .btn-secondary {
-    background: #334155 !important;
+  .link-item:hover { border-color: var(--border-hi); transform: translateX(2px); }
+  .link-item .meta { flex: 1; min-width: 0; }
+  .link-item .domain {
+    font-size: 0.7rem; color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px; font-weight: 600;
   }
-  .btn-secondary:hover { background: #475569 !important; opacity: 1 !important; }
-  .msg { margin-top: 12px; font-size: .85rem; min-height: 1.2em; }
-  .msg.err { color: #f87171; }
-  .msg.ok  { color: #4ade80; }
+  .link-item .url {
+    color: #a5b4fc;
+    font-weight: 700; font-size: 1rem;
+    word-break: break-all;
+    text-decoration: none;
+    display: block;
+  }
+  .link-item .url:hover { text-decoration: underline; }
+  .copy-btn {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 0.8rem; font-weight: 600; font-family: inherit;
+    color: var(--text);
+    background: rgba(51,65,85,0.8);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+  }
+  .copy-btn:hover {
+    background: rgba(99,102,241,0.25);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .copy-btn:active { transform: translateY(0) scale(.96); }
+  .copy-btn.copied {
+    background: rgba(74,222,128,0.15);
+    border-color: var(--ok);
+    color: var(--ok);
+  }
+
+  .msg {
+    margin-top: 12px; font-size: 0.85rem;
+    min-height: 1.2em; text-align: center;
+    transition: color .2s;
+  }
+  .msg.err { color: var(--err); }
+  .msg.ok  { color: var(--ok); }
+  .msg.info { color: var(--text-dim); }
+
+  /* ======================== RECENT ======================== */
   .recent {
     margin-top: 24px; padding-top: 20px;
-    border-top: 1px solid #334155;
+    border-top: 1px solid var(--border);
+    display: none;
   }
+  .recent.show { display: block; }
   .recent h2 {
-    font-size: .8rem; text-transform: uppercase;
-    letter-spacing: .05em; color: #64748b;
-    margin: 0 0 12px; font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-mute);
+    margin: 0 0 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .recent h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
   }
   .recent ul { list-style: none; padding: 0; margin: 0; }
   .recent li {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 0; font-size: .85rem;
-    border-bottom: 1px solid #1e293b;
+    padding: 10px 0; font-size: 0.85rem;
+    border-bottom: 1px solid rgba(51,65,85,0.4);
     gap: 12px;
   }
   .recent li:last-child { border-bottom: none; }
   .recent .code {
-    color: #a5b4fc; font-weight: 600; flex-shrink: 0;
-    cursor: pointer;
+    color: #a5b4fc; font-weight: 700;
+    flex-shrink: 0; cursor: pointer;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.8rem;
+    transition: color .2s;
   }
-  .recent .code:hover { text-decoration: underline; }
+  .recent .code:hover { color: var(--accent-2); text-decoration: underline; }
   .recent .target {
-    color: #64748b; overflow: hidden;
-    text-overflow: ellipsis; white-space: nowrap;
-    flex: 1; text-align: right;
+    color: var(--text-mute);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    flex: 1; text-align: right; font-size: 0.78rem;
   }
-  .loading {
-    color: #64748b; font-size: .85rem;
-    text-align: center; padding: 12px;
+
+  .footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: var(--text-mute);
+  }
+  .footer a { color: var(--text-dim); text-decoration: none; }
+  .footer a:hover { color: var(--accent); }
+
+  /* ======================== TOAST ======================== */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 12px 20px;
+    background: rgba(30,41,59,0.95);
+    border: 1px solid rgba(74,222,128,0.4);
+    border-radius: 10px;
+    color: var(--ok);
+    font-size: 0.85rem; font-weight: 600;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    z-index: 100;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ======================== ADBLOCK OVERLAY ======================== */
+  #adblockOverlay {
+    position: fixed; inset: 0;
+    background: rgba(10, 14, 26, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn .3s ease;
+  }
+  #adblockOverlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .ab-card {
+    max-width: 480px;
+    width: 100%;
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+    border: 1.5px solid rgba(248,113,113,0.35);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    position: relative;
+  }
+  .ab-card::before {
+    content: "";
+    position: absolute; top: -50px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, rgba(248,113,113,0.3), transparent 70%);
+    pointer-events: none;
+  }
+  .ab-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: shake 0.6s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25%      { transform: rotate(-8deg); }
+    75%      { transform: rotate(8deg); }
+  }
+  .ab-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fecaca;
+  }
+  .ab-card p {
+    margin: 0 0 20px;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .ab-card ol {
+    text-align: left;
+    margin: 0 0 24px;
+    padding-left: 20px;
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  .ab-card ol li { margin-bottom: 4px; }
+  .ab-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem; font-weight: 700; font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none; border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(239,68,68,0.4);
+    transition: transform .15s ease, box-shadow .25s ease;
+  }
+  .ab-btn:hover {
+    box-shadow: 0 14px 40px rgba(239,68,68,0.55);
+    transform: translateY(-2px);
+  }
+  .ab-btn:active { transform: translateY(0) scale(.98); }
+  .ab-hint {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--text-mute);
+  }
+
+  /* Bait adblock */
+  .adsbox, .ad-banner, #ad-banner, .text-ad, .ad-placement {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    pointer-events: none;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 22px 18px; }
+    .brand h1 { font-size: 1.5rem; }
+    .logo { width: 56px; height: 56px; font-size: 1.7rem; }
+    .link-item { flex-wrap: wrap; }
+    .copy-btn { width: 100%; justify-content: center; }
   }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <h1>🔗 klt.my.id</h1>
-  <div class="sub">Pemendek URL — hasil: <b>klt.my.id/xxxx</b></div>
+<!-- Bait elements untuk deteksi adblock -->
+<div class="adsbox ad-banner text-ad ad-placement" id="ad-banner" style="height:1px;width:1px;">&nbsp;</div>
 
-  <input id="urlInput" type="url" placeholder="https://contoh.com/url-panjang" autocomplete="off" />
-  <button id="btnShorten">Shorten 🚀</button>
+<div class="wrap">
 
-  <div class="msg" id="msg"></div>
-
-  <div class="result" id="result">
-    <div class="label">Short URL kamu</div>
-    <a id="shortLink" href="#" target="_blank" rel="noopener"></a>
-    <div class="row">
-      <button class="btn-secondary" id="btnCopy">📋 Copy</button>
-      <button class="btn-secondary" id="btnOpen">↗ Buka</button>
+  <!-- ================= HEADER ================= -->
+  <div class="brand">
+    <div class="logo">🔗</div>
+    <h1>Pemendek URL</h1>
+    <div class="tagline">Cepat • Aman • Gratis</div>
+    <div class="domains">
+      <span class="domain-pill">klt.my.id</span>
+      <span class="domain-pill">shrl.zone.id</span>
     </div>
   </div>
 
-  <div class="recent" id="recentBox" style="display:none">
+  <!-- ================= IKLAN ATAS ================= -->
+  <div class="ad-slot">
+    <div class="ad-label">Iklan</div>
+    <!-- IKLAN SCRIPT 2 (invoke.js) -->
+    <script async="async" data-cfasync="false" src="https://pl31354231.profitableratecpmnetwork.com/ba4f2c1e4636ebb634bcdd71c74b425b/invoke.js"></script>
+    <div id="container-ba4f2c1e4636ebb634bcdd71c74b425b"></div>
+  </div>
+
+  <!-- ================= CARD ================= -->
+  <div class="card">
+    <div class="input-group">
+      <input id="urlInput" type="url" placeholder="Tempel URL panjang di sini..." autocomplete="off" spellcheck="false" />
+      <span class="input-icon">🌐</span>
+    </div>
+
+    <button class="btn-shorten" id="btnShorten">
+      <span>Shorten Sekarang</span>
+      <span>🚀</span>
+    </button>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="result" id="result">
+      <div class="result-header">Short URL siap dipakai</div>
+      <div id="linksContainer"></div>
+    </div>
+  </div>
+
+  <!-- ================= RECENT ================= -->
+  <div class="recent" id="recentBox">
     <h2>Baru dibuat</h2>
     <ul id="recentList"></ul>
+  </div>
+
+  <div class="footer">
+    Powered by <a href="https://freecloud.order-rz.my.id" target="_blank" rel="noopener">FreeCloud</a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Tersalin ke clipboard</div>
+
+<!-- ================= ADBLOCK OVERLAY ================= -->
+<div id="adblockOverlay">
+  <div class="ab-card">
+    <span class="ab-icon">🛑</span>
+    <h2>AdBlock Terdeteksi</h2>
+    <p>Kami mendeteksi Anda menggunakan pemblokir iklan.<br>Mohon matikan AdBlock untuk melanjutkan.</p>
+    <ol>
+      <li>Klik ikon ekstensi AdBlock di browser Anda</li>
+      <li>Pilih <b>"Pause on this site"</b> atau <b>"Disable"</b></li>
+      <li>Refresh halaman ini (F5 / Ctrl+R)</li>
+    </ol>
+    <button class="ab-btn" id="btnRetry">🔄 Saya sudah matikan, coba lagi</button>
+    <div class="ab-hint">Halaman akan otomatis terbuka setelah AdBlock dimatikan.</div>
   </div>
 </div>
 
@@ -143,41 +554,154 @@ const PROJ   = "proj_764a1e888470fb4eb1e0";
 const KEY    = "fapi_9e114d76a0f6c83f1c5ea1dbf3dec731fd6a83bf";
 const PATH   = "links";
 const API    = `${BASE}/api/rtdb/${PROJ}/${PATH}`;
-const DOMAIN = "klt.my.id";
-const USE_REWRITE = true; // true → klt.my.id/xxxx  |  false → klt.my.id/r.html?id=xxxx
+
+const DOMAINS = ["klt.my.id", "shrl.zone.id"];
+const USE_REWRITE = true;
+
+/* ============================================================
+   ANTI ADBLOCK
+   ============================================================ */
+(function antiAdblock() {
+  const overlay = document.getElementById("adblockOverlay");
+  let detected = false;
+
+  function block(reason) {
+    if (detected) return;
+    detected = true;
+    console.warn("[AntiAdblock] Terdeteksi:", reason);
+    overlay.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function unblock() {
+    if (!detected) return;
+    detected = false;
+    overlay.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  // --- Lapis 1: cek bait element ---
+  function checkBait() {
+    const bait = document.getElementById("ad-banner");
+    if (!bait) return true;
+    const style = window.getComputedStyle(bait);
+    // kalau diblok, biasanya height 0 atau display none
+    if (
+      bait.offsetHeight === 0 ||
+      bait.offsetParent === null ||
+      style.display === "none" ||
+      style.visibility === "hidden"
+    ) {
+      block("bait element diblok");
+      return true;
+    }
+    return false;
+  }
+
+  // --- Lapis 2: cek script iklan termuat ---
+  function checkScripts() {
+    const scripts = [
+      "pl31354232.profitableratecpmnetwork.com",
+      "pl31354230.profitableratecpmnetwork.com",
+      "pl31354231.profitableratecpmnetwork.com"
+    ];
+    const loaded = Array.from(document.scripts).some(s =>
+      s.src && scripts.some(d => s.src.includes(d))
+    );
+    if (!loaded) {
+      block("script iklan tidak termuat");
+      return true;
+    }
+    return false;
+  }
+
+  // --- Lapis 3: fetch test ke script iklan ---
+  async function fetchTest() {
+    try {
+      const res = await fetch(
+        "https://pl31354232.profitableratecpmnetwork.com/0b/b5/f2/0bb5f2a96793da70eae62a445f08734b.js",
+        { method: "HEAD", cache: "no-store" }
+      );
+      if (!res.ok) block("script iklan diblok (HTTP " + res.status + ")");
+    } catch (e) {
+      block("script iklan tidak bisa diakses");
+    }
+  }
+
+  // --- Lapis 4: cek apakah div container iklan punya isi ---
+  function checkContainer() {
+    const c = document.getElementById("container-ba4f2c1e4636ebb634bcdd71c74b425b");
+    if (c && c.offsetHeight === 0 && c.children.length === 0) {
+      // Note: kadang iklan memang lambat, jangan langsung block
+      // Cek hanya kalau setelah delay tertentu tetap kosong
+    }
+  }
+
+  // Jalankan pengecekan
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      if (checkBait()) return;
+      checkScripts();
+      fetchTest();
+    }, 800);
+  });
+
+  // Retry button
+  document.getElementById("btnRetry").addEventListener("click", () => {
+    // reset & cek ulang
+    detected = false;
+    const bait = document.getElementById("ad-banner");
+    const style = window.getComputedStyle(bait);
+
+    if (bait.offsetHeight > 0 && style.display !== "none") {
+      unblock();
+      location.reload();
+    } else {
+      block("masih diblok");
+    }
+  });
+
+  // Cegah user tekan Esc / klik luar buat nutup overlay
+  overlay.addEventListener("click", e => {
+    e.stopPropagation();
+  });
+
+  // Monitor berkala
+  setInterval(() => {
+    if (!detected) {
+      const bait = document.getElementById("ad-banner");
+      if (bait.offsetHeight === 0) block("monitor periodik");
+    }
+  }, 3000);
+})();
 
 /* ============================================================
    HELPER
    ============================================================ */
 const $   = id => document.getElementById(id);
-const msg = (t, cls="") => { $("msg").textContent = t; $("msg").className = "msg " + cls; };
+const msg = (t, cls = "") => { $("msg").textContent = t; $("msg").className = "msg " + cls; };
 
 function genCode() {
-  const chars = "abcdefghjkmnpqrstuvwxyz23456789"; // tanpa i,l,o,0,1
+  const chars = "abcdefghjkmnpqrstuvwxyz23456789";
   let s = "";
   for (let i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)];
   return s;
 }
-
 function normalize(u) {
   u = u.trim();
   if (!/^https?:\/\//i.test(u)) u = "https://" + u;
   return u;
 }
-
 function isValidUrl(u) {
   try { const p = new URL(u); return p.protocol === "http:" || p.protocol === "https:"; }
   catch { return false; }
 }
-
-function shortUrlFor(code) {
-  return USE_REWRITE
-    ? `https://${DOMAIN}/${code}`
-    : `https://${DOMAIN}/r.html?id=${code}`;
+function shortUrlFor(domain, code) {
+  return USE_REWRITE ? `https://${domain}/${code}` : `https://${domain}/r.html?id=${code}`;
 }
 
 /* ============================================================
-   RTDB OPS
+   RTDB
    ============================================================ */
 async function codeExists(code) {
   try {
@@ -188,7 +712,6 @@ async function codeExists(code) {
     return data !== null && data !== undefined && data !== "";
   } catch { return false; }
 }
-
 async function saveLink(code, url) {
   const res = await fetch(`${API}/${code}?freeapi=${KEY}`, {
     method: "PUT",
@@ -199,7 +722,59 @@ async function saveLink(code, url) {
 }
 
 /* ============================================================
-   RECENT LINKS (localStorage)
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(text) {
+  const t = $("toast");
+  t.textContent = "✓ " + text;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+/* ============================================================
+   RESULT
+   ============================================================ */
+function renderResult(code) {
+  const container = $("linksContainer");
+  container.innerHTML = "";
+
+  DOMAINS.forEach(domain => {
+    const url = shortUrlFor(domain, code);
+    const item = document.createElement("div");
+    item.className = "link-item";
+    item.innerHTML = `
+      <div class="meta">
+        <div class="domain">${domain}</div>
+        <a class="url" href="${url}" target="_blank" rel="noopener">${url}</a>
+      </div>
+      <button class="copy-btn" data-url="${url}">📋 Copy</button>
+    `;
+    container.appendChild(item);
+  });
+
+  container.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const url = btn.dataset.url;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add("copied");
+        btn.innerHTML = "✓ Tersalin";
+        showToast("Tersalin: " + url);
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          btn.innerHTML = "📋 Copy";
+        }, 1800);
+      } catch { msg("Gagal copy, salin manual ya.", "err"); }
+    });
+  });
+
+  $("result").classList.add("show");
+}
+
+/* ============================================================
+   RECENT
    ============================================================ */
 const RECENT_KEY = "klt_recent";
 function getRecent() {
@@ -214,23 +789,22 @@ function addRecent(code, url) {
 }
 function renderRecent() {
   const list = getRecent();
-  if (!list.length) { $("recentBox").style.display = "none"; return; }
-  $("recentBox").style.display = "block";
+  if (!list.length) { $("recentBox").classList.remove("show"); return; }
+  $("recentBox").classList.add("show");
 
   $("recentList").innerHTML = list.map(x => `
     <li>
-      <span class="code" data-code="${x.code}">${DOMAIN}/${x.code}</span>
+      <span class="code" data-code="${x.code}" title="Klik untuk copy">${x.code}</span>
       <span class="target" title="${x.url}">${x.url}</span>
     </li>
   `).join("");
 
-  // klik → copy
   $("recentList").querySelectorAll(".code").forEach(el => {
     el.addEventListener("click", async () => {
-      const url = shortUrlFor(el.dataset.code);
+      const url = shortUrlFor(DOMAINS[0], el.dataset.code);
       try {
         await navigator.clipboard.writeText(url);
-        msg("Tersalin: " + url, "ok");
+        showToast("Tersalin: " + url);
       } catch { msg("Gagal copy", "err"); }
     });
   });
@@ -246,8 +820,10 @@ async function shorten() {
   const url = normalize(raw);
   if (!isValidUrl(url)) return msg("URL tidak valid.", "err");
 
-  $("btnShorten").disabled = true;
-  msg("Membuat short URL...");
+  const btn = $("btnShorten");
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span><span>Memproses...</span>`;
+  msg("");
 
   try {
     let code, tries = 0;
@@ -258,46 +834,22 @@ async function shorten() {
     } while (await codeExists(code));
 
     await saveLink(code, url);
-
-    const shortUrl = shortUrlFor(code);
-    $("shortLink").href = shortUrl;
-    $("shortLink").textContent = shortUrl;
-    $("result").classList.add("show");
-    msg("Berhasil! ✅", "ok");
-
+    renderResult(code);
+    msg("Berhasil! Pilih salah satu link di atas. ✅", "ok");
     addRecent(code, url);
     $("urlInput").value = "";
   } catch (err) {
     console.error(err);
     msg("Gagal: " + err.message, "err");
   } finally {
-    $("btnShorten").disabled = false;
+    btn.disabled = false;
+    btn.innerHTML = `<span>Shorten Sekarang</span><span>🚀</span>`;
   }
 }
 
-/* ============================================================
-   EVENT
-   ============================================================ */
 $("btnShorten").addEventListener("click", shorten);
 $("urlInput").addEventListener("keydown", e => { if (e.key === "Enter") shorten(); });
 
-$("btnCopy").addEventListener("click", async () => {
-  const text = $("shortLink").textContent;
-  try {
-    await navigator.clipboard.writeText(text);
-    msg("Tersalin ke clipboard 📋", "ok");
-  } catch {
-    msg("Gagal copy, salin manual ya.", "err");
-  }
-});
-
-$("btnOpen").addEventListener("click", () => {
-  window.open($("shortLink").href, "_blank", "noopener");
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
 renderRecent();
 </script>
 </body>
