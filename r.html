@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Konfirmasi Redirect — klt.my.id</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at 30% 20%, #1e293b, #0f172a 70%);
+    color: #e2e8f0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 520px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    animation: pop .25s ease-out;
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .icon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
+  h1 { margin: 0 0 6px; font-size: 1.25rem; font-weight: 600; }
+  .sub { color: #94a3b8; font-size: .9rem; margin-bottom: 20px; }
+  .dest {
+    background: #0f172a; border: 1px solid #334155;
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 20px;
+    word-break: break-all;
+  }
+  .dest .label {
+    font-size: .75rem; text-transform: uppercase;
+    letter-spacing: .05em; color: #64748b; margin-bottom: 8px;
+  }
+  .dest .url {
+    color: #a5b4fc; font-weight: 600;
+    font-size: .95rem; line-height: 1.5;
+  }
+  .domain-badge {
+    display: inline-block; padding: 2px 8px;
+    font-size: .75rem; border-radius: 6px;
+    background: #1e3a5f; color: #93c5fd;
+    margin-right: 6px; font-weight: 600;
+  }
+  .domain-badge.warn { background: #4a1d1d; color: #fca5a5; }
+  .actions { display: flex; gap: 10px; }
+  button, .btn {
+    flex: 1; padding: 12px 16px;
+    font-size: .95rem; font-weight: 600;
+    font-family: inherit; border-radius: 10px;
+    border: none; cursor: pointer;
+    text-align: center; text-decoration: none;
+    transition: opacity .2s, transform .1s;
+    display: inline-block;
+  }
+  button:active, .btn:active { transform: scale(.98); }
+  .btn-primary {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+  }
+  .btn-primary:hover { opacity: .9; }
+  .btn-secondary { background: #334155; color: #e2e8f0; }
+  .btn-secondary:hover { background: #475569; }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 3px solid #334155;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .center { text-align: center; }
+  .err { color: #f87171; }
+  .stats {
+    margin-top: 16px; font-size: .8rem;
+    color: #64748b; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Loading -->
+  <div id="loading" class="center">
+    <div class="spinner"></div>
+    <p style="color:#94a3b8">Mencari link...</p>
+  </div>
+
+  <!-- Konfirmasi -->
+  <div id="confirm" style="display:none">
+    <span class="icon">⚠️</span>
+    <h1>Anda yakin ingin ke sini?</h1>
+    <div class="sub">Link ini akan mengalihkan Anda ke situs eksternal.</div>
+
+    <div class="dest">
+      <div class="label">Tujuan</div>
+      <div class="url" id="destUrl">—</div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-secondary" href="/">← Batal</a>
+      <button class="btn btn-primary" id="btnGo">Lanjutkan →</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <!-- Error -->
+  <div id="error" style="display:none" class="center">
+    <span class="icon">❌</span>
+    <h1 class="err" id="errMsg">Terjadi kesalahan</h1>
+    <p style="margin-top:16px">
+      <a class="btn btn-secondary" href="/">← Kembali ke beranda</a>
+    </p>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   KONFIG
+   ============================================================ */
+const BASE = "https://freecloud.order-rz.my.id";
+const PROJ = "proj_764a1e888470fb4eb1e0";
+const KEY  = "fapi_9e114d76a0f6c83f1c5ea1dbf3dec731fd6a83bf";
+const PATH = "links";
+
+/* ============================================================
+   HELPER
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const show = id => {
+  ["loading","confirm","error"].forEach(x => $(x).style.display = "none");
+  $(id).style.display = "block";
+};
+
+/* ============================================================
+   AMBIL KODE DARI URL
+   pathname: /a1b2   atau   ?id=a1b2
+   ============================================================ */
+const params = new URLSearchParams(location.search);
+const code = (params.get("id") || location.pathname.replace(/^\/+/, "")).trim();
+
+/* ============================================================
+   ANALISIS URL
+   ============================================================ */
+function analyzeUrl(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, "");
+    const trusted = [
+      "google.com","youtube.com","github.com","wikipedia.org",
+      "facebook.com","instagram.com","twitter.com","x.com",
+      "tiktok.com","linkedin.com","reddit.com","medium.com",
+      "stackoverflow.com","netlify.app","vercel.app",
+      "tokopedia.com","shopee.co.id","bukalapak.com"
+    ];
+    const isTrusted = trusted.some(t => host === t || host.endsWith("." + t));
+    return { host, isTrusted };
+  } catch {
+    return { host: "unknown", isTrusted: false };
+  }
+}
+
+/* ============================================================
+   MAIN
+   ============================================================ */
+async function run() {
+  if (!code) return fail("Kode tidak ditemukan di URL.");
+
+  try {
+    const res = await fetch(`${BASE}/api/rtdb/${PROJ}/${PATH}/${encodeURIComponent(code)}?freeapi=${KEY}`);
+
+    if (res.status === 404) return fail("Link tidak ditemukan atau sudah dihapus.");
+    if (!res.ok) return fail("Gagal mengambil data (HTTP " + res.status + ").");
+
+    const data = await res.json();
+    if (!data || !data.url) return fail("Link tidak valid atau kosong.");
+
+    renderConfirm(data);
+  } catch (err) {
+    console.error(err);
+    fail("Terjadi kesalahan: " + err.message);
+  }
+}
+
+/* ============================================================
+   RENDER KONFIRMASI
+   ============================================================ */
+function renderConfirm(data) {
+  const { host, isTrusted } = analyzeUrl(data.url);
+  const badgeCls = isTrusted ? "domain-badge" : "domain-badge warn";
+  const badgeTxt = isTrusted ? "✓ Terpercaya" : "⚠ Tidak dikenal";
+
+  $("destUrl").innerHTML =
+    `<span class="${badgeCls}">${badgeTxt}</span> <b>${host}</b><br>` +
+    `<span style="color:#94a3b8;font-size:.85rem">${data.url}</span>`;
+
+  const hits = data.hits ?? 0;
+  const created = data.created
+    ? new Date(data.created).toLocaleDateString("id-ID", {
+        day: "numeric", month: "short", year: "numeric"
+      })
+    : "—";
+  $("stats").textContent = `Diklik ${hits} kali • Dibuat ${created}`;
+
+  $("btnGo").addEventListener("click", () => {
+    fetch(`${BASE}/api/rtdb/${PROJ}/${PATH}/${encodeURIComponent(code)}?freeapi=${KEY}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ hits: hits + 1 })
+    }).catch(() => {});
+    location.replace(data.url);
+  });
+
+  show("confirm");
+}
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+function fail(m) {
+  $("errMsg").textContent = m;
+  show("error");
+}
+
+/* ============================================================
+   JALANKAN
+   ============================================================ */
+run();
+</script>
+</body>
+</html>
