@@ -118,8 +118,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-mute);
-    margin-bottom: 8px;
-    font-weight: 700;
+    margin-bottom: 8px; font-weight: 700;
   }
 
   /* ======================== CARD ======================== */
@@ -220,8 +219,7 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-mute);
-    margin-bottom: 12px;
-    font-weight: 600;
+    margin-bottom: 12px; font-weight: 600;
   }
   .result-header::before {
     content: "";
@@ -370,8 +368,7 @@
     -webkit-backdrop-filter: blur(16px);
     z-index: 99999;
     display: none;
-    align-items: center;
-    justify-content: center;
+    align-items: center; justify-content: center;
     padding: 24px;
     animation: fadeIn .3s ease;
   }
@@ -379,8 +376,7 @@
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .ab-card {
-    max-width: 480px;
-    width: 100%;
+    max-width: 480px; width: 100%;
     background: linear-gradient(180deg, #1e293b, #0f172a);
     border: 1.5px solid rgba(248,113,113,0.35);
     border-radius: 20px;
@@ -399,8 +395,7 @@
   }
   .ab-icon {
     font-size: 3.5rem;
-    display: block;
-    margin-bottom: 16px;
+    display: block; margin-bottom: 16px;
     animation: shake 0.6s ease;
   }
   @keyframes shake {
@@ -410,23 +405,20 @@
   }
   .ab-card h2 {
     margin: 0 0 10px;
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 1.4rem; font-weight: 800;
     color: #fecaca;
   }
   .ab-card p {
     margin: 0 0 20px;
     color: var(--text-dim);
-    font-size: 0.92rem;
-    line-height: 1.6;
+    font-size: 0.92rem; line-height: 1.6;
   }
   .ab-card ol {
     text-align: left;
     margin: 0 0 24px;
     padding-left: 20px;
     color: var(--text-dim);
-    font-size: 0.88rem;
-    line-height: 1.8;
+    font-size: 0.88rem; line-height: 1.8;
   }
   .ab-card ol li { margin-bottom: 4px; }
   .ab-btn {
@@ -451,15 +443,6 @@
     color: var(--text-mute);
   }
 
-  /* Bait adblock */
-  .adsbox, .ad-banner, #ad-banner, .text-ad, .ad-placement {
-    position: absolute !important;
-    left: -9999px !important;
-    width: 1px !important;
-    height: 1px !important;
-    pointer-events: none;
-  }
-
   @media (max-width: 480px) {
     .card { padding: 22px 18px; }
     .brand h1 { font-size: 1.5rem; }
@@ -470,9 +453,6 @@
 </style>
 </head>
 <body>
-
-<!-- Bait elements untuk deteksi adblock -->
-<div class="adsbox ad-banner text-ad ad-placement" id="ad-banner" style="height:1px;width:1px;">&nbsp;</div>
 
 <div class="wrap">
 
@@ -559,11 +539,13 @@ const DOMAINS = ["klt.my.id", "shrl.zone.id"];
 const USE_REWRITE = true;
 
 /* ============================================================
-   ANTI ADBLOCK
+   ANTI ADBLOCK v2 (minim false positive)
    ============================================================ */
 (function antiAdblock() {
   const overlay = document.getElementById("adblockOverlay");
   let detected = false;
+  let strikeCount = 0;
+  const REQUIRED_STRIKES = 2;
 
   function block(reason) {
     if (detected) return;
@@ -574,105 +556,94 @@ const USE_REWRITE = true;
   }
 
   function unblock() {
-    if (!detected) return;
     detected = false;
+    strikeCount = 0;
     overlay.classList.remove("show");
     document.body.style.overflow = "";
   }
 
-  // --- Lapis 1: cek bait element ---
+  // --- METODE 1: bait classic (dibuat runtime, position fixed) ---
   function checkBait() {
-    const bait = document.getElementById("ad-banner");
-    if (!bait) return true;
-    const style = window.getComputedStyle(bait);
-    // kalau diblok, biasanya height 0 atau display none
-    if (
-      bait.offsetHeight === 0 ||
-      bait.offsetParent === null ||
-      style.display === "none" ||
-      style.visibility === "hidden"
-    ) {
-      block("bait element diblok");
-      return true;
-    }
-    return false;
+    const bait = document.createElement("div");
+    bait.className = "adsbox ad-banner text-ad ad-placement textAd";
+    bait.style.cssText =
+      "position:fixed;left:0;bottom:0;" +
+      "width:10px;height:10px;opacity:0.001;" +
+      "pointer-events:none;z-index:-1;";
+    bait.innerHTML = "&nbsp;";
+    document.body.appendChild(bait);
+    void bait.offsetHeight;
+    const h = bait.offsetHeight;
+    const w = bait.offsetWidth;
+    const disp = window.getComputedStyle(bait).display;
+    setTimeout(() => bait.remove(), 100);
+    return (h === 0 || w === 0 || disp === "none");
   }
 
-  // --- Lapis 2: cek script iklan termuat ---
-  function checkScripts() {
-    const scripts = [
-      "pl31354232.profitableratecpmnetwork.com",
-      "pl31354230.profitableratecpmnetwork.com",
-      "pl31354231.profitableratecpmnetwork.com"
-    ];
-    const loaded = Array.from(document.scripts).some(s =>
-      s.src && scripts.some(d => s.src.includes(d))
-    );
-    if (!loaded) {
-      block("script iklan tidak termuat");
-      return true;
-    }
-    return false;
-  }
-
-  // --- Lapis 3: fetch test ke script iklan ---
+  // --- METODE 2: fetch test (no-cors, lebih toleran) ---
   async function fetchTest() {
     try {
-      const res = await fetch(
+      await fetch(
         "https://pl31354232.profitableratecpmnetwork.com/0b/b5/f2/0bb5f2a96793da70eae62a445f08734b.js",
-        { method: "HEAD", cache: "no-store" }
+        { method: "GET", mode: "no-cors", cache: "no-store" }
       );
-      if (!res.ok) block("script iklan diblok (HTTP " + res.status + ")");
-    } catch (e) {
-      block("script iklan tidak bisa diakses");
+      return false;
+    } catch {
+      return true;
     }
   }
 
-  // --- Lapis 4: cek apakah div container iklan punya isi ---
-  function checkContainer() {
-    const c = document.getElementById("container-ba4f2c1e4636ebb634bcdd71c74b425b");
-    if (c && c.offsetHeight === 0 && c.children.length === 0) {
-      // Note: kadang iklan memang lambat, jangan langsung block
-      // Cek hanya kalau setelah delay tertentu tetap kosong
-    }
-  }
+  // --- RUN CHECKS ---
+  async function runChecks() {
+    const baitBlocked = checkBait();
 
-  // Jalankan pengecekan
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      if (checkBait()) return;
-      checkScripts();
-      fetchTest();
-    }, 800);
-  });
-
-  // Retry button
-  document.getElementById("btnRetry").addEventListener("click", () => {
-    // reset & cek ulang
-    detected = false;
-    const bait = document.getElementById("ad-banner");
-    const style = window.getComputedStyle(bait);
-
-    if (bait.offsetHeight > 0 && style.display !== "none") {
-      unblock();
-      location.reload();
+    if (!baitBlocked) {
+      const fetchBlocked = await fetchTest();
+      if (fetchBlocked) {
+        strikeCount++;
+        console.warn("[AntiAdblock] strike fetch:", strikeCount);
+      } else {
+        strikeCount = 0;
+      }
     } else {
-      block("masih diblok");
+      strikeCount++;
+      console.warn("[AntiAdblock] strike bait:", strikeCount);
     }
+
+    if (strikeCount >= REQUIRED_STRIKES) {
+      block("strike " + strikeCount);
+    }
+  }
+
+  // --- SCHEDULE ---
+  setTimeout(runChecks, 1500);
+  setTimeout(() => { if (!detected) runChecks(); }, 3500);
+  setTimeout(() => { if (!detected) runChecks(); }, 6000);
+
+  // --- RETRY BUTTON ---
+  document.getElementById("btnRetry").addEventListener("click", () => {
+    strikeCount = 0;
+    detected = false;
+    overlay.classList.remove("show");
+    document.body.style.overflow = "";
+
+    setTimeout(async () => {
+      const baitBlocked = checkBait();
+      const fetchBlocked = await fetchTest();
+      if (baitBlocked || fetchBlocked) {
+        strikeCount = 2;
+        block("masih diblok saat retry");
+      } else {
+        location.reload();
+      }
+    }, 300);
   });
 
-  // Cegah user tekan Esc / klik luar buat nutup overlay
-  overlay.addEventListener("click", e => {
-    e.stopPropagation();
+  // Overlay tidak bisa ditutup dengan klik / Esc
+  overlay.addEventListener("click", e => e.stopPropagation());
+  document.addEventListener("keydown", e => {
+    if (detected && e.key === "Escape") e.preventDefault();
   });
-
-  // Monitor berkala
-  setInterval(() => {
-    if (!detected) {
-      const bait = document.getElementById("ad-banner");
-      if (bait.offsetHeight === 0) block("monitor periodik");
-    }
-  }, 3000);
 })();
 
 /* ============================================================
@@ -697,7 +668,9 @@ function isValidUrl(u) {
   catch { return false; }
 }
 function shortUrlFor(domain, code) {
-  return USE_REWRITE ? `https://${domain}/${code}` : `https://${domain}/r.html?id=${code}`;
+  return USE_REWRITE
+    ? `https://${domain}/${code}`
+    : `https://${domain}/r.html?id=${code}`;
 }
 
 /* ============================================================
@@ -734,7 +707,7 @@ function showToast(text) {
 }
 
 /* ============================================================
-   RESULT
+   RENDER RESULT (2 DOMAIN)
    ============================================================ */
 function renderResult(code) {
   const container = $("linksContainer");
@@ -847,9 +820,15 @@ async function shorten() {
   }
 }
 
+/* ============================================================
+   EVENT
+   ============================================================ */
 $("btnShorten").addEventListener("click", shorten);
 $("urlInput").addEventListener("keydown", e => { if (e.key === "Enter") shorten(); });
 
+/* ============================================================
+   INIT
+   ============================================================ */
 renderRecent();
 </script>
 </body>
