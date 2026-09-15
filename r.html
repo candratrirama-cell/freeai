@@ -4,122 +4,343 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Konfirmasi Redirect — klt.my.id</title>
+
+<!-- ===== IKLAN ===== -->
+<script src="https://pl31354232.profitableratecpmnetwork.com/0b/b5/f2/0bb5f2a96793da70eae62a445f08734b.js"></script>
+<script src="https://pl31354230.profitableratecpmnetwork.com/3b/e0/0a/3be00a8dc61d7a091b9ab9d9ebeeb8bf.js"></script>
+
 <style>
+  :root {
+    --bg-1: #0a0e1a;
+    --card: rgba(30, 41, 59, 0.7);
+    --border: rgba(99, 102, 241, 0.15);
+    --border-hi: rgba(99, 102, 241, 0.4);
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-mute: #64748b;
+    --accent: #6366f1;
+    --accent-2: #8b5cf6;
+    --ok: #4ade80;
+    --err: #f87171;
+    --warn: #fbbf24;
+  }
   * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: radial-gradient(circle at 30% 20%, #1e293b, #0f172a 70%);
-    color: #e2e8f0;
+    color: var(--text);
+    background: var(--bg-1);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(99,102,241,0.18), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(236,72,153,0.14), transparent 45%);
+    background-attachment: fixed;
     display: flex; align-items: center; justify-content: center;
-    padding: 24px;
+    padding: 24px 16px;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .wrap {
+    width: 100%; max-width: 520px;
+    position: relative;
+    z-index: 1;
   }
   .card {
-    width: 100%; max-width: 520px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 16px;
+    background: var(--card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
     padding: 32px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    animation: pop .25s ease-out;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    animation: pop .3s cubic-bezier(.34,1.56,.64,1);
   }
   @keyframes pop {
-    from { opacity: 0; transform: scale(.96); }
+    from { opacity: 0; transform: scale(.94); }
     to   { opacity: 1; transform: scale(1); }
   }
-  .icon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
-  h1 { margin: 0 0 6px; font-size: 1.25rem; font-weight: 600; }
-  .sub { color: #94a3b8; font-size: .9rem; margin-bottom: 20px; }
+  .icon {
+    font-size: 3rem; margin-bottom: 12px;
+    display: block; line-height: 1;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 1.35rem; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 24px; line-height: 1.5;
+  }
   .dest {
-    background: #0f172a; border: 1px solid #334155;
-    border-radius: 10px; padding: 14px 16px; margin-bottom: 20px;
+    background: rgba(15,23,42,0.8);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
     word-break: break-all;
+    position: relative; overflow: hidden;
+  }
+  .dest::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
   }
   .dest .label {
-    font-size: .75rem; text-transform: uppercase;
-    letter-spacing: .05em; color: #64748b; margin-bottom: 8px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-mute);
+    margin-bottom: 10px; font-weight: 700;
   }
   .dest .url {
-    color: #a5b4fc; font-weight: 600;
-    font-size: .95rem; line-height: 1.5;
+    color: #a5b4fc;
+    font-weight: 700; font-size: 0.95rem;
+    line-height: 1.55; word-break: break-all;
   }
   .domain-badge {
-    display: inline-block; padding: 2px 8px;
-    font-size: .75rem; border-radius: 6px;
-    background: #1e3a5f; color: #93c5fd;
-    margin-right: 6px; font-weight: 600;
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    border-radius: 6px;
+    background: rgba(74,222,128,0.15);
+    color: var(--ok);
+    margin-right: 8px; font-weight: 700;
+    vertical-align: middle;
   }
-  .domain-badge.warn { background: #4a1d1d; color: #fca5a5; }
+  .domain-badge.warn {
+    background: rgba(251,191,36,0.15);
+    color: var(--warn);
+  }
   .actions { display: flex; gap: 10px; }
   button, .btn {
-    flex: 1; padding: 12px 16px;
-    font-size: .95rem; font-weight: 600;
-    font-family: inherit; border-radius: 10px;
-    border: none; cursor: pointer;
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 0.95rem; font-weight: 700; font-family: inherit;
+    border-radius: 12px; border: none; cursor: pointer;
     text-align: center; text-decoration: none;
-    transition: opacity .2s, transform .1s;
-    display: inline-block;
+    transition: all .2s ease;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   }
-  button:active, .btn:active { transform: scale(.98); }
+  button:active, .btn:active { transform: scale(.97); }
   .btn-primary {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: #fff;
+    box-shadow: 0 8px 24px rgba(99,102,241,0.35);
   }
-  .btn-primary:hover { opacity: .9; }
-  .btn-secondary { background: #334155; color: #e2e8f0; }
-  .btn-secondary:hover { background: #475569; }
+  .btn-primary:hover {
+    box-shadow: 0 12px 32px rgba(99,102,241,0.5);
+    opacity: .95;
+  }
+  .btn-secondary {
+    background: rgba(51,65,85,0.7);
+    color: var(--text);
+    border: 1px solid rgba(99,102,241,0.2);
+  }
+  .btn-secondary:hover {
+    background: rgba(51,65,85,1);
+    border-color: var(--border-hi);
+  }
   .spinner {
-    width: 32px; height: 32px;
-    border: 3px solid #334155;
-    border-top-color: #6366f1;
+    width: 36px; height: 36px;
+    border: 3px solid rgba(99,102,241,0.2);
+    border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin .8s linear infinite;
     margin: 0 auto 16px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .center { text-align: center; }
-  .err { color: #f87171; }
+  .err { color: var(--err); }
   .stats {
-    margin-top: 16px; font-size: .8rem;
-    color: #64748b; text-align: center;
+    margin-top: 18px;
+    font-size: 0.78rem;
+    color: var(--text-mute);
+    text-align: center;
+    display: flex; justify-content: center; gap: 16px;
+  }
+  .stats span { display: inline-flex; align-items: center; gap: 5px; }
+
+  /* IKLAN BOX */
+  .ad-slot {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(15,23,42,0.5);
+    border: 1px dashed rgba(99,102,241,0.2);
+    border-radius: 12px;
+    text-align: center;
+    min-height: 60px;
+    overflow: hidden;
+  }
+  .ad-slot .ad-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-mute);
+    margin-bottom: 8px; font-weight: 700;
+  }
+
+  /* ADBLOCK OVERLAY */
+  #adblockOverlay {
+    position: fixed; inset: 0;
+    background: rgba(10, 14, 26, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 99999;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    animation: fadeIn .3s ease;
+  }
+  #adblockOverlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .ab-card {
+    max-width: 480px; width: 100%;
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+    border: 1.5px solid rgba(248,113,113,0.35);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+  }
+  .ab-icon {
+    font-size: 3.5rem;
+    display: block; margin-bottom: 16px;
+    animation: shake 0.6s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25%      { transform: rotate(-8deg); }
+    75%      { transform: rotate(8deg); }
+  }
+  .ab-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem; font-weight: 800;
+    color: #fecaca;
+  }
+  .ab-card p {
+    margin: 0 0 20px;
+    color: var(--text-dim);
+    font-size: 0.92rem; line-height: 1.6;
+  }
+  .ab-card ol {
+    text-align: left;
+    margin: 0 0 24px;
+    padding-left: 20px;
+    color: var(--text-dim);
+    font-size: 0.88rem; line-height: 1.8;
+  }
+  .ab-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem; font-weight: 700; font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none; border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(239,68,68,0.4);
+    transition: transform .15s ease, box-shadow .25s ease;
+  }
+  .ab-btn:hover {
+    box-shadow: 0 14px 40px rgba(239,68,68,0.55);
+    transform: translateY(-2px);
+  }
+  .ab-hint {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--text-mute);
+  }
+
+  /* Bait */
+  .adsbox, .ad-banner, #ad-banner, .text-ad, .ad-placement {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    pointer-events: none;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 24px 20px; }
+    h1 { font-size: 1.2rem; }
+    .actions { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <!-- Loading -->
-  <div id="loading" class="center">
-    <div class="spinner"></div>
-    <p style="color:#94a3b8">Mencari link...</p>
+<!-- Bait adblock -->
+<div class="adsbox ad-banner text-ad ad-placement" id="ad-banner" style="height:1px;width:1px;">&nbsp;</div>
+
+<div class="wrap">
+
+  <!-- IKLAN ATAS -->
+  <div class="ad-slot">
+    <div class="ad-label">Iklan</div>
+    <script async="async" data-cfasync="false" src="https://pl31354231.profitableratecpmnetwork.com/ba4f2c1e4636ebb634bcdd71c74b425b/invoke.js"></script>
+    <div id="container-ba4f2c1e4636ebb634bcdd71c74b425b"></div>
   </div>
 
-  <!-- Konfirmasi -->
-  <div id="confirm" style="display:none">
-    <span class="icon">⚠️</span>
-    <h1>Anda yakin ingin ke sini?</h1>
-    <div class="sub">Link ini akan mengalihkan Anda ke situs eksternal.</div>
-
-    <div class="dest">
-      <div class="label">Tujuan</div>
-      <div class="url" id="destUrl">—</div>
+  <div class="card">
+    <!-- Loading -->
+    <div id="loading" class="center">
+      <div class="spinner"></div>
+      <p style="color:#94a3b8">Mencari link...</p>
     </div>
 
-    <div class="actions">
-      <a class="btn btn-secondary" href="/">← Batal</a>
-      <button class="btn btn-primary" id="btnGo">Lanjutkan →</button>
+    <!-- Konfirmasi -->
+    <div id="confirm" style="display:none">
+      <span class="icon">⚠️</span>
+      <h1>Anda yakin ingin ke sini?</h1>
+      <div class="sub">Link ini akan mengalihkan Anda ke situs eksternal.</div>
+
+      <div class="dest">
+        <div class="label">Tujuan</div>
+        <div class="url" id="destUrl">—</div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-secondary" href="/">← Batal</a>
+        <button class="btn btn-primary" id="btnGo">Lanjutkan →</button>
+      </div>
+
+      <div class="stats" id="stats"></div>
     </div>
 
-    <div class="stats" id="stats"></div>
+    <!-- Error -->
+    <div id="error" style="display:none" class="center">
+      <span class="icon">❌</span>
+      <h1 class="err" id="errMsg">Terjadi kesalahan</h1>
+      <p style="margin-top:20px">
+        <a class="btn btn-secondary" href="/" style="max-width:200px;margin:0 auto">← Kembali ke beranda</a>
+      </p>
+    </div>
   </div>
+</div>
 
-  <!-- Error -->
-  <div id="error" style="display:none" class="center">
-    <span class="icon">❌</span>
-    <h1 class="err" id="errMsg">Terjadi kesalahan</h1>
-    <p style="margin-top:16px">
-      <a class="btn btn-secondary" href="/">← Kembali ke beranda</a>
-    </p>
+<!-- ADBLOCK OVERLAY -->
+<div id="adblockOverlay">
+  <div class="ab-card">
+    <span class="ab-icon">🛑</span>
+    <h2>AdBlock Terdeteksi</h2>
+    <p>Kami mendeteksi Anda menggunakan pemblokir iklan.<br>Mohon matikan AdBlock untuk melanjutkan.</p>
+    <ol>
+      <li>Klik ikon ekstensi AdBlock di browser Anda</li>
+      <li>Pilih <b>"Pause on this site"</b> atau <b>"Disable"</b></li>
+      <li>Refresh halaman ini (F5 / Ctrl+R)</li>
+    </ol>
+    <button class="ab-btn" id="btnRetry">🔄 Saya sudah matikan, coba lagi</button>
+    <div class="ab-hint">Halaman akan otomatis terbuka setelah AdBlock dimatikan.</div>
   </div>
 </div>
 
@@ -133,6 +354,94 @@ const KEY  = "fapi_9e114d76a0f6c83f1c5ea1dbf3dec731fd6a83bf";
 const PATH = "links";
 
 /* ============================================================
+   ANTI ADBLOCK
+   ============================================================ */
+(function antiAdblock() {
+  const overlay = document.getElementById("adblockOverlay");
+  let detected = false;
+
+  function block(reason) {
+    if (detected) return;
+    detected = true;
+    console.warn("[AntiAdblock]", reason);
+    overlay.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+  function unblock() {
+    detected = false;
+    overlay.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  function checkBait() {
+    const bait = document.getElementById("ad-banner");
+    const style = window.getComputedStyle(bait);
+    if (
+      bait.offsetHeight === 0 ||
+      bait.offsetParent === null ||
+      style.display === "none" ||
+      style.visibility === "hidden"
+    ) {
+      block("bait element diblok");
+      return true;
+    }
+    return false;
+  }
+
+  function checkScripts() {
+    const hosts = [
+      "pl31354232.profitableratecpmnetwork.com",
+      "pl31354230.profitableratecpmnetwork.com",
+      "pl31354231.profitableratecpmnetwork.com"
+    ];
+    const loaded = Array.from(document.scripts).some(s =>
+      s.src && hosts.some(d => s.src.includes(d))
+    );
+    if (!loaded) { block("script iklan tidak termuat"); return true; }
+    return false;
+  }
+
+  async function fetchTest() {
+    try {
+      const res = await fetch(
+        "https://pl31354232.profitableratecpmnetwork.com/0b/b5/f2/0bb5f2a96793da70eae62a445f08734b.js",
+        { method: "HEAD", cache: "no-store" }
+      );
+      if (!res.ok) block("script diblok (" + res.status + ")");
+    } catch { block("script tidak bisa diakses"); }
+  }
+
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      if (checkBait()) return;
+      checkScripts();
+      fetchTest();
+    }, 800);
+  });
+
+  document.getElementById("btnRetry").addEventListener("click", () => {
+    detected = false;
+    const bait = document.getElementById("ad-banner");
+    const style = window.getComputedStyle(bait);
+    if (bait.offsetHeight > 0 && style.display !== "none") {
+      unblock();
+      location.reload();
+    } else {
+      block("masih diblok");
+    }
+  });
+
+  overlay.addEventListener("click", e => e.stopPropagation());
+
+  setInterval(() => {
+    if (!detected) {
+      const bait = document.getElementById("ad-banner");
+      if (bait.offsetHeight === 0) block("monitor periodik");
+    }
+  }, 3000);
+})();
+
+/* ============================================================
    HELPER
    ============================================================ */
 const $ = id => document.getElementById(id);
@@ -141,16 +450,9 @@ const show = id => {
   $(id).style.display = "block";
 };
 
-/* ============================================================
-   AMBIL KODE DARI URL
-   pathname: /a1b2   atau   ?id=a1b2
-   ============================================================ */
 const params = new URLSearchParams(location.search);
 const code = (params.get("id") || location.pathname.replace(/^\/+/, "")).trim();
 
-/* ============================================================
-   ANALISIS URL
-   ============================================================ */
 function analyzeUrl(url) {
   try {
     const u = new URL(url);
@@ -164,26 +466,19 @@ function analyzeUrl(url) {
     ];
     const isTrusted = trusted.some(t => host === t || host.endsWith("." + t));
     return { host, isTrusted };
-  } catch {
-    return { host: "unknown", isTrusted: false };
-  }
+  } catch { return { host: "unknown", isTrusted: false }; }
 }
 
-/* ============================================================
-   MAIN
-   ============================================================ */
 async function run() {
   if (!code) return fail("Kode tidak ditemukan di URL.");
 
   try {
     const res = await fetch(`${BASE}/api/rtdb/${PROJ}/${PATH}/${encodeURIComponent(code)}?freeapi=${KEY}`);
-
     if (res.status === 404) return fail("Link tidak ditemukan atau sudah dihapus.");
     if (!res.ok) return fail("Gagal mengambil data (HTTP " + res.status + ").");
 
     const data = await res.json();
     if (!data || !data.url) return fail("Link tidak valid atau kosong.");
-
     renderConfirm(data);
   } catch (err) {
     console.error(err);
@@ -191,9 +486,6 @@ async function run() {
   }
 }
 
-/* ============================================================
-   RENDER KONFIRMASI
-   ============================================================ */
 function renderConfirm(data) {
   const { host, isTrusted } = analyzeUrl(data.url);
   const badgeCls = isTrusted ? "domain-badge" : "domain-badge warn";
@@ -209,7 +501,8 @@ function renderConfirm(data) {
         day: "numeric", month: "short", year: "numeric"
       })
     : "—";
-  $("stats").textContent = `Diklik ${hits} kali • Dibuat ${created}`;
+  $("stats").innerHTML =
+    `<span>👁 ${hits} klik</span><span>📅 ${created}</span>`;
 
   $("btnGo").addEventListener("click", () => {
     fetch(`${BASE}/api/rtdb/${PROJ}/${PATH}/${encodeURIComponent(code)}?freeapi=${KEY}`, {
@@ -223,17 +516,11 @@ function renderConfirm(data) {
   show("confirm");
 }
 
-/* ============================================================
-   ERROR
-   ============================================================ */
 function fail(m) {
   $("errMsg").textContent = m;
   show("error");
 }
 
-/* ============================================================
-   JALANKAN
-   ============================================================ */
 run();
 </script>
 </body>
